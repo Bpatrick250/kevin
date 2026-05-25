@@ -43,7 +43,7 @@ body {
   /* Shadows with brand colors */
   --shadow-blue: 0 4px 14px 0 rgba(1, 52, 100, 0.15);
   --shadow-green: 0 4px 14px 0 rgba(2, 135, 2, 0.15);
-  --shadow-secondary: 0 4px 14px 0 rgba(60, 131, 246, 0.15);
+  --shadow-secondary: 0 4px 14px 0 #0a61ed97;
 }
 
 /* Container */
@@ -521,9 +521,10 @@ label {
 
 /* Footer */
 .footer {
-  background: var(--primary-dark-blue);
+  background: greenyellow;
   color: var(--primary-white);
   padding: 3rem 0 1.5rem;
+  background-color: greenyellow;
 }
 
 .footer-link {

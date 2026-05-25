@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faTimes, faUser, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { logo } from "../assets";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,26 +17,28 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { to: "/", label: "Home", icon: "home" },
-    { to: "/about", label: "About", icon: "info-circle" },
-    { to: "/programs", label: "Programs", icon: "graduation-cap" },
-    { to: "/blog", label: "Blog", icon: "blog" },
-    { to: "/gallery", label: "Gallery", icon: "images" },
-    { to: "/getinvolved", label: "Get Involved", icon: "hand-peace" },
-    { to: "/contact", label: "Contact", icon: "envelope" },
+    { to: "/", label: "Home" },
+    { to: "/about", label: "About" },
+    { to: "/programs", label: "Programs" },
+    { to: "/blog", label: "Blog" },
+    { to: "/gallery", label: "Gallery" },
+    { to: "/getinvolved", label: "Get Involved" },
+    { to: "/contact", label: "Contact" },
   ];
 
   return (
     <nav className={`navbar ${isScrolled ? 'navbar-scrolled' : ''}`}>
       <div className="container">
         <div className="flex justify-between items-center py-4">
-          {/* Logo */}
+          {/* Logo with Image */}
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">RL</span>
-            </div>
+            <img 
+              src={logo} 
+              alt="RLG Logo" 
+              className="w-12 h-12 object-contain"
+            />
             <div>
-              <span className="text-xl font-bold text-green">Rising Leaders</span>
+              <span className="text-xl font-bold text-primary-blue">Rising Leaders</span>
               <span className="text-xs text-gray block -mt-1">of Generation</span>
             </div>
           </Link>
@@ -82,7 +85,7 @@ const Navbar = () => {
                 to={link.to}
                 onClick={() => setIsOpen(false)}
                 className={({ isActive }) =>
-                  `block py-3 px-4 rounded-lg transition ${isActive ? 'bg-green text-white' : 'text-gray-600 hover:bg-gray-50'}`
+                  `block py-3 px-4 rounded-lg transition ${isActive ? 'bg-primary-blue text-white' : 'text-gray-600 hover:bg-gray-50'}`
                 }
               >
                 {link.label}

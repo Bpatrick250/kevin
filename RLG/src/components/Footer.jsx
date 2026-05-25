@@ -1,5 +1,8 @@
-import { Link } from "react-router-dom";
-
+import { useState, useEffect } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { logo } from "../assets";
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   
@@ -13,7 +16,19 @@ const Footer = () => {
           <div>
             <Link to="/" className="flex items-center space-x-2 mb-4">
               <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                RLG
+                
+                 {/* Logo with Image */}
+          <Link to="/" className="flex items-center gap-2">
+            <img 
+              src={logo} 
+              alt="RLG Logo" 
+              className="w-12 h-12 object-contain"
+            />
+            <div>
+              <span className="text-xl font-bold text-primary-blue">Rising Leaders</span>
+              <span className="text-xs text-gray block -mt-1">of Generation</span>
+            </div>
+          </Link>
               </span>
               <span className="text-white font-semibold">Rising Leaders</span>
             </Link>

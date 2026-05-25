@@ -31,9 +31,22 @@ import {
   faComments,
   faThumbsUp,
   faNewspaper,
-  faBullhorn
+  faBullhorn,
+  faUsers as faUsersIcon
 } from '@fortawesome/free-solid-svg-icons';
 import { showSuccess, showToast, showInfo } from "../utils/alert";
+import { 
+  heroBg, 
+  heroImage, 
+  patternBg, 
+  dotsPattern,
+  programIcon1,
+  programIcon2,
+  programIcon3,
+  testimonial1,
+  testimonial2,
+  testimonial3 
+} from "../assets";
 
 const Home = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -46,8 +59,8 @@ const Home = () => {
 
   // Counter animation
   useEffect(() => {
-    const targets = { members: 5000, countries: 50, mentors: 200, events: 100 };
-    const duration = 2000;
+    const targets = { members: 100, countries: 3, mentors: 20, events: 10 };
+    const duration = 5000;
     const step = 20;
     const increment = {
       members: targets.members / (duration / step),
@@ -96,21 +109,24 @@ const Home = () => {
       role: "RLG Alumni 2024",
       text: "RLG transformed my leadership journey. The mentorship I received helped me launch my own non-profit organization!",
       rating: 5,
-      image: "SJ"
+      image: testimonial1,
+      initials: "SJ"
     },
     {
       name: "Michael Chen",
       role: "Current Fellow",
       text: "The global network and resources provided by RLG are unmatched. I've connected with mentors from top companies worldwide.",
       rating: 5,
-      image: "MC"
+      image: testimonial2,
+      initials: "MC"
     },
     {
       name: "Dr. Amina Patel",
       role: "Lead Mentor",
       text: "Working with RLG fellows has been incredibly rewarding. These young leaders are truly shaping our future.",
       rating: 5,
-      image: "AP"
+      image: testimonial3,
+      initials: "AP"
     }
   ];
 
@@ -126,8 +142,16 @@ const Home = () => {
 
   return (
     <div className="pt-16">
-      {/* Hero Section */}
-      <section className="hero">
+      {/* Hero Section with Background Image */}
+      <section 
+        className="hero"
+        style={{
+          backgroundImage: `linear-gradient(135deg, hsla(132, 56%, 2%, 0.95), rgba(2,135,2,0.9)), url(${heroBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}
+      >
         <div className="container text-center py-20">
           <div className="max-w-4xl mx-auto">
             <div className="inline-flex items-center gap-2 bg-white bg-opacity-20 rounded-full px-4 py-2 mb-6">
@@ -136,15 +160,13 @@ const Home = () => {
             </div>
             
             <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
-              Rise Above.
-              <span className="block bg-gradient-growth bg-clip-text text-transparent">
-                Lead Tomorrow.
-              </span>
+              Lead and Empower For Change
+            
             </h1>
             
             <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90 animate-slide-left">
               Empowering the next generation of visionary leaders to create lasting impact 
-              in their communities and beyond. Join 5000+ young leaders worldwide.
+              in their communities and beyond. Join 100+ young leaders in Rwanda.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-right">
@@ -160,19 +182,14 @@ const Home = () => {
               </button>
             </div>
             
-            <div className="flex flex-wrap justify-center gap-6 mt-12">
-              <div className="flex items-center gap-2">
-                <FontAwesomeIcon icon={faCheckCircle} className="text-green-light" />
-                <span className="text-white text-sm">Free to Apply</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <FontAwesomeIcon icon={faCheckCircle} className="text-green-light" />
-                <span className="text-white text-sm">Scholarships Available</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <FontAwesomeIcon icon={faCheckCircle} className="text-green-light" />
-                <span className="text-white text-sm">Global Recognition</span>
-              </div>
+            {/* Hero Image */}
+            <div className="mt-12">
+              <img 
+                src={heroImage} 
+                alt="Young Leaders" 
+                className="mx-auto rounded-2xl shadow-2xl max-w-full h-auto"
+                style={{ maxHeight: '400px' }}
+              />
             </div>
           </div>
         </div>
@@ -183,7 +200,7 @@ const Home = () => {
         <div className="container">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="stat-card">
-              <div className="w-16 h-16 bg-gradient-leadership rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4">
                 <FontAwesomeIcon icon={faUsers} className="text-white text-2xl" />
               </div>
               <div className="stat-number">{Math.floor(counters.members)}+</div>
@@ -192,7 +209,7 @@ const Home = () => {
             </div>
             
             <div className="stat-card">
-              <div className="w-16 h-16 bg-gradient-growth rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-gradient-secondary rounded-full flex items-center justify-center mx-auto mb-4">
                 <FontAwesomeIcon icon={faGlobe} className="text-white text-2xl" />
               </div>
               <div className="stat-number">{Math.floor(counters.countries)}+</div>
@@ -201,7 +218,7 @@ const Home = () => {
             </div>
             
             <div className="stat-card">
-              <div className="w-16 h-16 bg-gradient-sustainability rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-gradient-blue rounded-full flex items-center justify-center mx-auto mb-4">
                 <FontAwesomeIcon icon={faGraduationCap} className="text-white text-2xl" />
               </div>
               <div className="stat-number">{Math.floor(counters.mentors)}+</div>
@@ -210,7 +227,7 @@ const Home = () => {
             </div>
             
             <div className="stat-card">
-              <div className="w-16 h-16 bg-gradient-blue-green rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-gradient-green rounded-full flex items-center justify-center mx-auto mb-4">
                 <FontAwesomeIcon icon={faCalendarAlt} className="text-white text-2xl" />
               </div>
               <div className="stat-number">{Math.floor(counters.events)}+</div>
@@ -221,13 +238,13 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Features Section with Detailed Cards */}
+      {/* Features Section with Program Icons */}
       <section className="py-20 bg-gray-50">
         <div className="container">
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 bg-green-light bg-opacity-20 rounded-full px-4 py-2 mb-4">
-              <FontAwesomeIcon icon={faStar} className="text-green-dark" />
-              <span className="text-green-dark text-sm font-semibold">Why Choose RLG</span>
+              <FontAwesomeIcon icon={faStar} className="text-green" />
+              <span className="text-green text-sm font-semibold">Why Choose RLG</span>
             </div>
             <h2 className="text-4xl font-bold mb-4">Transform Your Leadership Journey</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -238,15 +255,17 @@ const Home = () => {
           <div className="grid md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
               <div key={index} className="card p-8 text-center group hover:shadow-xl transition">
-                <div className="w-20 h-20 bg-gradient-leadership rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition">
-                  <FontAwesomeIcon icon={feature.icon} size="2x" className="text-white" />
-                </div>
+                <img 
+                  src={feature.icon} 
+                  alt={feature.title}
+                  className="w-20 h-20 mx-auto mb-4 object-contain group-hover:scale-110 transition"
+                />
                 <h3 className="text-2xl font-semibold mb-3">{feature.title}</h3>
                 <p className="text-gray-600 mb-4">{feature.description}</p>
                 <ul className="text-left space-y-2">
                   {feature.points.map((point, i) => (
                     <li key={i} className="flex items-center gap-2 text-sm text-gray-600">
-                      <FontAwesomeIcon icon={faCheckCircle} className="text-green-dark text-xs" />
+                      <FontAwesomeIcon icon={faCheckCircle} className="text-green text-xs" />
                       {point}
                     </li>
                   ))}
@@ -257,8 +276,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Testimonials Section with Carousel */}
-      <section className="py-20 bg-gradient-sustainability text-white">
+      {/* Testimonials Section with Images */}
+      <section className="py-20 bg-gradient-primary text-white">
         <div className="container">
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 bg-white bg-opacity-20 rounded-full px-4 py-2 mb-4">
@@ -277,9 +296,11 @@ const Home = () => {
               <p className="text-xl mb-6 leading-relaxed">{testimonials[currentTestimonial].text}</p>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 bg-gradient-leadership rounded-full flex items-center justify-center text-white text-xl font-bold">
-                    {testimonials[currentTestimonial].image}
-                  </div>
+                  <img 
+                    src={testimonials[currentTestimonial].image} 
+                    alt={testimonials[currentTestimonial].name}
+                    className="w-16 h-16 rounded-full object-cover"
+                  />
                   <div>
                     <h4 className="font-bold text-lg">{testimonials[currentTestimonial].name}</h4>
                     <p className="text-gray-600">{testimonials[currentTestimonial].role}</p>
@@ -296,7 +317,7 @@ const Home = () => {
                       key={idx}
                       onClick={() => setCurrentTestimonial(idx)}
                       className={`w-2 h-2 rounded-full transition ${
-                        idx === currentTestimonial ? 'bg-green-dark w-4' : 'bg-gray-300'
+                        idx === currentTestimonial ? 'bg-green w-4' : 'bg-gray-300'
                       }`}
                     />
                   ))}
@@ -313,8 +334,8 @@ const Home = () => {
           <div className="flex justify-between items-center mb-12 flex-wrap gap-4">
             <div>
               <div className="inline-flex items-center gap-2 bg-green-light bg-opacity-20 rounded-full px-4 py-2 mb-4">
-                <FontAwesomeIcon icon={faCalendarAlt} className="text-green-dark" />
-                <span className="text-green-dark text-sm font-semibold">Don't Miss Out</span>
+                <FontAwesomeIcon icon={faCalendarAlt} className="text-green" />
+                <span className="text-green text-sm font-semibold">Don't Miss Out</span>
               </div>
               <h2 className="text-4xl font-bold">Upcoming Events</h2>
             </div>
@@ -329,19 +350,19 @@ const Home = () => {
             {upcomingEvents.map((event, index) => (
               <div key={index} className="event-card">
                 <div className="flex items-start justify-between mb-4">
-                  <div className="bg-gradient-leadership rounded-lg p-3">
+                  <div className="bg-gradient-primary rounded-lg p-3">
                     <FontAwesomeIcon icon={faCalendarAlt} className="text-white text-xl" />
                   </div>
-                  <span className="badge badge-growth">{event.spots} spots left</span>
+                  <span className="badge badge-green">{event.spots} spots left</span>
                 </div>
                 <h3 className="text-xl font-bold mb-2">{event.title}</h3>
                 <div className="space-y-2 mb-4">
                   <div className="flex items-center gap-2 text-gray-600">
-                    <FontAwesomeIcon icon={faClock} className="text-green-dark text-sm" />
+                    <FontAwesomeIcon icon={faClock} className="text-green text-sm" />
                     <span className="text-sm">{event.time}</span>
                   </div>
                   <div className="flex items-center gap-2 text-gray-600">
-                    <FontAwesomeIcon icon={faMapMarkerAlt} className="text-green-dark text-sm" />
+                    <FontAwesomeIcon icon={faMapMarkerAlt} className="text-green text-sm" />
                     <span className="text-sm">{event.location}</span>
                   </div>
                 </div>
@@ -360,8 +381,8 @@ const Home = () => {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <div className="inline-flex items-center gap-2 bg-green-light bg-opacity-20 rounded-full px-4 py-2 mb-4">
-                <FontAwesomeIcon icon={faTrophy} className="text-green-dark" />
-                <span className="text-green-dark text-sm font-semibold">Our Impact</span>
+                <FontAwesomeIcon icon={faTrophy} className="text-green" />
+                <span className="text-green text-sm font-semibold">Our Impact</span>
               </div>
               <h2 className="text-4xl font-bold mb-4">Making a Difference Worldwide</h2>
               <p className="text-gray-600 mb-6">
@@ -372,7 +393,7 @@ const Home = () => {
                 <div>
                   <div className="flex justify-between mb-2">
                     <span className="font-semibold">Community Projects Completed</span>
-                    <span className="text-green-dark font-bold">150+</span>
+                    <span className="text-green font-bold">150+</span>
                   </div>
                   <div className="progress-bar">
                     <div className="progress-fill" style={{ width: '85%' }}></div>
@@ -381,7 +402,7 @@ const Home = () => {
                 <div>
                   <div className="flex justify-between mb-2">
                     <span className="font-semibold">Mentorship Hours Provided</span>
-                    <span className="text-green-dark font-bold">10,000+</span>
+                    <span className="text-green font-bold">10,000+</span>
                   </div>
                   <div className="progress-bar">
                     <div className="progress-fill" style={{ width: '90%' }}></div>
@@ -390,7 +411,7 @@ const Home = () => {
                 <div>
                   <div className="flex justify-between mb-2">
                     <span className="font-semibold">Youth Employed/Placed</span>
-                    <span className="text-green-dark font-bold">2,000+</span>
+                    <span className="text-green font-bold">2,000+</span>
                   </div>
                   <div className="progress-bar">
                     <div className="progress-fill" style={{ width: '75%' }}></div>
@@ -400,22 +421,22 @@ const Home = () => {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="card p-6 text-center">
-                <FontAwesomeIcon icon={faTree} size="3x" className="text-green-dark mb-3" />
+                <FontAwesomeIcon icon={faTree} size="3x" className="text-green mb-3" />
                 <div className="stat-number">5,000+</div>
                 <p className="text-gray-600 text-sm">Trees Planted</p>
               </div>
               <div className="card p-6 text-center">
-                <FontAwesomeIcon icon={faBookOpen} size="3x" className="text-green-dark mb-3" />
+                <FontAwesomeIcon icon={faBookOpen} size="3x" className="text-green mb-3" />
                 <div className="stat-number">50+</div>
                 <p className="text-gray-600 text-sm">Scholarships</p>
               </div>
               <div className="card p-6 text-center">
-                <FontAwesomeIcon icon={faLaptopCode} size="3x" className="text-green-dark mb-3" />
+                <FontAwesomeIcon icon={faLaptopCode} size="3x" className="text-green mb-3" />
                 <div className="stat-number">30+</div>
                 <p className="text-gray-600 text-sm">Tech Workshops</p>
               </div>
               <div className="card p-6 text-center">
-                <FontAwesomeIcon icon={faAward} size="3x" className="text-green-dark mb-3" />
+                <FontAwesomeIcon icon={faAward} size="3x" className="text-green mb-3" />
                 <div className="stat-number">25+</div>
                 <p className="text-gray-600 text-sm">Awards Won</p>
               </div>
@@ -473,7 +494,7 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-leadership text-white">
+      <section className="py-20 bg-gradient-primary text-white">
         <div className="container text-center">
           <h2 className="text-4xl font-bold mb-4">Ready to Start Your Leadership Journey?</h2>
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
@@ -499,19 +520,19 @@ const Home = () => {
 
 const features = [
   {
-    icon: faLightbulb,
+    icon: programIcon1,
     title: "World-Class Mentorship",
     description: "Learn from industry leaders and experienced professionals who guide your growth journey.",
     points: ["1-on-1 mentoring sessions", "Career guidance", "Networking opportunities", "Personalized feedback"]
   },
   {
-    icon: faGlobe,
+    icon: programIcon2,
     title: "Global Community",
     description: "Connect with like-minded peers from around the world and build lasting networks.",
     points: ["50+ countries represented", "Cultural exchange programs", "Global conferences", "Online community platform"]
   },
   {
-    icon: faChartLine,
+    icon: programIcon3,
     title: "Real Projects",
     description: "Work on impactful initiatives that create tangible change in communities.",
     points: ["Social impact projects", "Leadership portfolios", "Funding opportunities", "Recognition awards"]
