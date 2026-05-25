@@ -154,9 +154,9 @@ const Home = () => {
       >
         <div className="container text-center py-20">
           <div className="max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 bg-black bg-opacity-20 rounded-full px-4 py-2 mb-6">
-              <FontAwesomeIcon icon={faBullhorn} className="text-white" />
-              <span className="text-white text-sm">Applications Open for 2025 Cohort</span>
+            <div className="mb-10">
+              
+           
             </div>
             
             <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
