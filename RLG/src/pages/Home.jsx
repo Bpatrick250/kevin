@@ -146,7 +146,7 @@ const Home = () => {
       <section 
         className="hero"
         style={{
-          backgroundImage: `linear-gradient(135deg, hsla(132, 56%, 2%, 0.95), rgba(2,135,2,0.9)), url(${heroBg})`,
+          backgroundImage: ` url(${heroBg})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed'
