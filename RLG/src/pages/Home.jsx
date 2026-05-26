@@ -101,6 +101,7 @@ const Home = () => {
 
   const handleApplyNow = () => {
     showToast("Applications are now open! Apply today to join our next cohort.", "success");
+    showToast("Navigate to Get Involved Page Then Fill The Form","success")
   };
 
   const testimonials = [
