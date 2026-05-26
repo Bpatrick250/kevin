@@ -21,25 +21,25 @@ import {
   faClock,
   faMapMarkerAlt,
   faEnvelope,
-  faPhone,
   faPlayCircle,
-  faUserGraduate,
   faAward,
   faTree,
   faBookOpen,
   faLaptopCode,
   faComments,
-  faThumbsUp,
-  faNewspaper,
   faBullhorn,
-  faUsers as faUsersIcon
+  faArrowLeft,
+  faBuilding,
+  faUserTie,
+  faSchool,
+  faLeaf,
+  faTarget,
+  faEye
 } from '@fortawesome/free-solid-svg-icons';
 import { showSuccess, showToast, showInfo } from "../utils/alert";
 import { 
   heroBg, 
   heroImage, 
-  patternBg, 
-  dotsPattern,
   programIcon1,
   programIcon2,
   programIcon3,
@@ -50,6 +50,7 @@ import {
 
 const Home = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [counters, setCounters] = useState({
     members: 0,
     countries: 0,
@@ -60,7 +61,7 @@ const Home = () => {
   // Counter animation
   useEffect(() => {
     const targets = { members: 100, countries: 3, mentors: 20, events: 10 };
-    const duration = 5000;
+    const duration = 3000;
     const step = 20;
     const increment = {
       members: targets.members / (duration / step),
@@ -91,17 +92,31 @@ const Home = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // Close mobile menu on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 1024) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const handleJoinNewsletter = () => {
     showSuccess("Subscribed! 🎉", "Thank you for joining our newsletter. You'll receive updates about leadership programs and events!");
   };
 
   const handleWatchVideo = () => {
-    showInfo("Watch Our Story", "Check out our video to learn how RLG is transforming young leaders worldwide!");
+    showInfo("Watch Our Story", "Check out our video to learn how RLG is transforming young leaders in Rwanda and beyond!");
   };
 
   const handleApplyNow = () => {
-    showToast("Applications are now open! Apply today to join our next cohort.", "success");
-    showToast("Navigate to Get Involved Page Then Fill The Form","success")
+    showToast("Applications are now open! Navigate to Get Involved page to fill the application form.", "success");
+  };
+
+  const handleLearnMore = () => {
+    showInfo("About RLG", "We are dedicated to nurturing the next generation of leaders in Rwanda through mentorship, training, and real-world projects.");
   };
 
   const testimonials = [
@@ -131,10 +146,37 @@ const Home = () => {
     }
   ];
 
+  const programs = [
+    {
+      title: "Leadership Accelerator",
+      description: "12-week intensive program for emerging leaders ready to scale their impact.",
+      duration: "12 Weeks",
+      spots: "15 spots left",
+      icon: faUserTie,
+      color: "primary"
+    },
+    {
+      title: "Young Entrepreneurs Hub",
+      description: "Learn business skills, get mentorship, and launch your startup with funding opportunities.",
+      duration: "6 Months",
+      spots: "20 spots left",
+      icon: faBuilding,
+      color: "green"
+    },
+    {
+      title: "Sustainability Champions",
+      description: "Lead environmental projects and become a catalyst for green change in your community.",
+      duration: "8 Weeks",
+      spots: "10 spots left",
+      icon: faLeaf,
+      color: "secondary"
+    }
+  ];
+
   const upcomingEvents = [
-    { title: "Leadership Summit 2025", date: "June 15, 2025", time: "9:00 AM - 6:00 PM", location: "Virtual + NYC", spots: 150 },
+    { title: "Leadership Summit 2025", date: "June 15, 2025", time: "9:00 AM - 6:00 PM", location: "Virtual + Kigali", spots: 150 },
     { title: "Design Thinking Workshop", date: "July 5, 2025", time: "2:00 PM - 5:00 PM", location: "Online", spots: 50 },
-    { title: "Networking Gala", date: "August 20, 2025", time: "6:00 PM - 9:00 PM", location: "New York", spots: 200 }
+    { title: "Networking Gala", date: "August 20, 2025", time: "6:00 PM - 9:00 PM", location: "Kigali", spots: 200 }
   ];
 
   const partners = [
@@ -143,125 +185,244 @@ const Home = () => {
 
   return (
     <div className="pt-16">
-      {/* Hero Section with Background Image */}
+      {/* Hero Section with Parallel Content */}
       <section 
         className="hero"
         style={{
-          backgroundImage: ` url(${heroBg})`,
+          backgroundImage: `linear-gradient(135deg, rgba(1,52,100,0.95), rgba(2,135,2,0.85)), url(${heroBg})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed'
         }}
       >
-        <div className="container text-center py-20">
-          <div className="max-w-4xl mx-auto">
-            <div className="mb-10">
+        <div className="container py-16 md:py-20">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Left Content */}
+            <div className="text-center md:text-left">
+              <div className="inline-flex items-center gap-2 bg-white bg-opacity-20 rounded-full px-4 py-2 mb-6">
+                <FontAwesomeIcon icon={faBullhorn} className="text-white" />
+                <span className="text-white text-sm">Applications Open for 2025 Cohort</span>
+              </div>
               
-           
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                Lead and Empower
+                <span className="block bg-gradient-green bg-clip-text text-transparent">
+                  For Change
+                </span>
+              </h1>
+              
+              <p className="text-lg md:text-xl mb-8 text-white opacity-95">
+                Empowering the next generation of visionary leaders to create lasting impact 
+                in their communities and beyond. Join 100+ young leaders in Rwanda.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                <button onClick={handleApplyNow}>
+                  <Button variant="primary" size="lg" icon={faRocket}>
+                    Apply Now
+                  </Button>
+                </button>
+                <button onClick={handleWatchVideo}>
+                  <Button variant="outline" size="lg" icon={faPlayCircle}>
+                    Watch Video
+                  </Button>
+                </button>
+              </div>
+              
+              {/* Trust Indicators */}
+              <div className="flex flex-wrap gap-4 mt-8 justify-center md:justify-start">
+                <div className="flex items-center gap-2">
+                  <FontAwesomeIcon icon={faCheckCircle} className="text-green-light" />
+                  <span className="text-white text-sm">Free to Apply</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <FontAwesomeIcon icon={faCheckCircle} className="text-green-light" />
+                  <span className="text-white text-sm">Scholarships Available</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <FontAwesomeIcon icon={faCheckCircle} className="text-green-light" />
+                  <span className="text-white text-sm">Global Recognition</span>
+                </div>
+              </div>
             </div>
             
-            <h1 className=" font-bold mb-10 animate-fade-in ">
-              Lead and Empower For Change
-            
-            </h1>
-            
-            <p className="text-xl md:text-2xl mb-10    animate-slide-left">
-              Empowering the next generation of visionary leaders to create lasting impact 
-              in their communities and beyond. Join 100+ young leaders in Rwanda.
-            </p>
-            
-            <div className=" justify-center animate-slide-right">
-              <button onClick={handleApplyNow}>
-                <Button variant="primary" size="lg" icon={faRocket}>
-                  Apply Now
-                </Button>
-              </button>
-              <button onClick={handleWatchVideo}>
-                <Button variant="outline" size="lg" icon={faPlayCircle}>
-                  Watch Video
-                </Button>
-              </button>
-            </div>
-            
-            {/* Hero Image */}
-            <div className="mt-12">
-              <img 
-                src={heroImage} 
-                alt="Young Leaders" 
-                className="mx-auto rounded-2xl shadow-2xl max-w-full h-auto"
-                style={{ maxHeight: '400px' }}
-              />
+            {/* Right Content - Hero Image */}
+            <div className="relative">
+              <div className="relative z-10">
+                <img 
+                  src={heroImage} 
+                  alt="Young Leaders in Rwanda" 
+                  className="rounded-2xl shadow-2xl w-full h-auto object-cover"
+                  style={{ maxHeight: '450px' }}
+                />
+              </div>
+              {/* Decorative Elements */}
+              <div className="absolute -top-4 -right-4 w-32 h-32 bg-green-light rounded-full opacity-20 blur-2xl"></div>
+              <div className="absolute -bottom-4 -left-4 w-40 h-40 bg-primary-blue rounded-full opacity-20 blur-2xl"></div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Stats Section with Icons */}
+      {/* Stats Section */}
       <section className="py-16 bg-white">
         <div className="container">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
             <div className="stat-card">
-              <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                <FontAwesomeIcon icon={faUsers} className="text-white text-2xl" />
+              <div className="w-14 h-14 md:w-16 md:h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                <FontAwesomeIcon icon={faUsers} className="text-white text-xl md:text-2xl" />
               </div>
-              <div className="stat-number">{Math.floor(counters.members)}+</div>
-              <div className="text-gray-600 mt-2">Active Members</div>
-              <div className="text-sm text-green mt-1">↑ 45% this year</div>
+              <div className="stat-number text-2xl md:text-4xl">{Math.floor(counters.members)}+</div>
+              <div className="text-gray-600 text-sm md:text-base mt-2">Active Members</div>
+              <div className="text-xs text-green mt-1">↑ 45% this year</div>
             </div>
             
             <div className="stat-card">
-              <div className="w-16 h-16 bg-gradient-secondary rounded-full flex items-center justify-center mx-auto mb-4">
-                <FontAwesomeIcon icon={faGlobe} className="text-white text-2xl" />
+              <div className="w-14 h-14 md:w-16 md:h-16 bg-gradient-secondary rounded-full flex items-center justify-center mx-auto mb-4">
+                <FontAwesomeIcon icon={faGlobe} className="text-white text-xl md:text-2xl" />
               </div>
-              <div className="stat-number">{Math.floor(counters.countries)}+</div>
-              <div className="text-gray-600 mt-2">Countries</div>
-              <div className="text-sm text-green mt-1">6 continents</div>
+              <div className="stat-number text-2xl md:text-4xl">{Math.floor(counters.countries)}+</div>
+              <div className="text-gray-600 text-sm md:text-base mt-2">Countries</div>
+              <div className="text-xs text-green mt-1">Global reach</div>
             </div>
             
             <div className="stat-card">
-              <div className="w-16 h-16 bg-gradient-blue rounded-full flex items-center justify-center mx-auto mb-4">
-                <FontAwesomeIcon icon={faGraduationCap} className="text-white text-2xl" />
+              <div className="w-14 h-14 md:w-16 md:h-16 bg-gradient-blue rounded-full flex items-center justify-center mx-auto mb-4">
+                <FontAwesomeIcon icon={faGraduationCap} className="text-white text-xl md:text-2xl" />
               </div>
-              <div className="stat-number">{Math.floor(counters.mentors)}+</div>
-              <div className="text-gray-600 mt-2">Expert Mentors</div>
-              <div className="text-sm text-green mt-1">Top industry leaders</div>
+              <div className="stat-number text-2xl md:text-4xl">{Math.floor(counters.mentors)}+</div>
+              <div className="text-gray-600 text-sm md:text-base mt-2">Expert Mentors</div>
+              <div className="text-xs text-green mt-1">Industry leaders</div>
             </div>
             
             <div className="stat-card">
-              <div className="w-16 h-16 bg-gradient-green rounded-full flex items-center justify-center mx-auto mb-4">
-                <FontAwesomeIcon icon={faCalendarAlt} className="text-white text-2xl" />
+              <div className="w-14 h-14 md:w-16 md:h-16 bg-gradient-green rounded-full flex items-center justify-center mx-auto mb-4">
+                <FontAwesomeIcon icon={faCalendarAlt} className="text-white text-xl md:text-2xl" />
               </div>
-              <div className="stat-number">{Math.floor(counters.events)}+</div>
-              <div className="text-gray-600 mt-2">Events Yearly</div>
-              <div className="text-sm text-green mt-1">100+ workshops</div>
+              <div className="stat-number text-2xl md:text-4xl">{Math.floor(counters.events)}+</div>
+              <div className="text-gray-600 text-sm md:text-base mt-2">Events Yearly</div>
+              <div className="text-xs text-green mt-1">Workshops & summits</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features Section with Program Icons */}
+      {/* About Section - Short */}
       <section className="py-20 bg-gray-50">
+        <div className="container">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <div className="inline-flex items-center gap-2 bg-green-light bg-opacity-20 rounded-full px-4 py-2 mb-4">
+                <FontAwesomeIcon icon={faEye} className="text-green" />
+                <span className="text-green text-sm font-semibold">Our Story</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Building Tomorrow's Leaders Today</h2>
+              <p className="text-gray-600 mb-4 leading-relaxed">
+                Founded in 2020, Rising Leaders of Generation (RLG) has been at the forefront of youth leadership development in Rwanda. We believe that every young person has the potential to be a leader.
+              </p>
+              <p className="text-gray-600 mb-6 leading-relaxed">
+                Our programs combine world-class mentorship, practical projects, and a supportive community to help young leaders thrive and create lasting impact in their communities.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <button onClick={handleLearnMore}>
+                  <Button variant="primary" icon={faArrowRight} iconPosition="right">
+                    Learn More About Us
+                  </Button>
+                </button>
+                <Link to="/about">
+                  <Button variant="outline" icon={faUserTie}>
+                    Meet Our Team
+                  </Button>
+                </Link>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="card p-6 text-center">
+                <FontAwesomeIcon icon={faTarget} size="3x" className="text-green mb-3" />
+                <h3 className="text-xl font-bold mb-2">Our Mission</h3>
+                <p className="text-gray-600 text-sm">Empower young leaders with skills, networks, and opportunities.</p>
+              </div>
+              <div className="card p-6 text-center">
+                <FontAwesomeIcon icon={faEye} size="3x" className="text-primary-blue mb-3" />
+                <h3 className="text-xl font-bold mb-2">Our Vision</h3>
+                <p className="text-gray-600 text-sm">A world where every young person can lead positive change.</p>
+              </div>
+              <div className="card p-6 text-center col-span-2">
+                <FontAwesomeIcon icon={faHeart} size="3x" className="text-secondary-blue mb-3" />
+                <h3 className="text-xl font-bold mb-2">Our Values</h3>
+                <p className="text-gray-600 text-sm">Integrity, Innovation, Collaboration, Excellence, and Impact.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Programs Short Section */}
+      <section className="py-20 bg-white">
         <div className="container">
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 bg-green-light bg-opacity-20 rounded-full px-4 py-2 mb-4">
               <FontAwesomeIcon icon={faStar} className="text-green" />
-              <span className="text-green text-sm font-semibold">Why Choose RLG</span>
+              <span className="text-green text-sm font-semibold">Our Programs</span>
             </div>
-            <h2 className="text-4xl font-bold mb-4">Transform Your Leadership Journey</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              We provide everything you need to grow as a leader and make a real impact.
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Transform Your Leadership Journey</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Choose from our specialized programs designed to help you grow as a leader
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
+            {programs.map((program, index) => (
+              <div key={index} className={`card p-6 text-center group hover:shadow-xl transition ${program.color === 'primary' ? 'card-primary' : program.color === 'green' ? 'card-green' : 'card-secondary'}`}>
+                <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${
+                  program.color === 'primary' ? 'bg-primary-blue' : program.color === 'green' ? 'bg-primary-green' : 'bg-secondary-blue'
+                }`}>
+                  <FontAwesomeIcon icon={program.icon} className="text-white text-2xl" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">{program.title}</h3>
+                <p className="text-gray-600 text-sm mb-3">{program.description}</p>
+                <div className="flex justify-between text-xs text-gray-500 mb-4">
+                  <span>📅 {program.duration}</span>
+                  <span className="text-green font-semibold">{program.spots}</span>
+                </div>
+                <button onClick={handleApplyNow} className="btn btn-secondary w-full text-sm">
+                  Apply Now →
+                </button>
+              </div>
+            ))}
+          </div>
+          
+          <div className="text-center mt-10">
+            <Link to="/programs">
+              <Button variant="outline" icon={faArrowRight} iconPosition="right">
+                View All Programs
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="container">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 bg-green-light bg-opacity-20 rounded-full px-4 py-2 mb-4">
+              <FontAwesomeIcon icon={faLightbulb} className="text-green" />
+              <span className="text-green text-sm font-semibold">Why Choose Us</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">What Makes RLG Different</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              We provide everything you need to grow as a leader and make a real impact
             </p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <div key={index} className="card p-8 text-center group hover:shadow-xl transition">
-                <img 
-                  src={feature.icon} 
-                  alt={feature.title}
-                  className="w-20 h-20 mx-auto mb-4 object-contain group-hover:scale-110 transition"
-                />
-                <h3 className="text-2xl font-semibold mb-3">{feature.title}</h3>
+              <div key={index} className="card p-6 text-center group hover:shadow-xl transition">
+                <div className="w-20 h-20 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition">
+                  <FontAwesomeIcon icon={feature.icon} className="text-white text-2xl" />
+                </div>
+                <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
                 <p className="text-gray-600 mb-4">{feature.description}</p>
                 <ul className="text-left space-y-2">
                   {feature.points.map((point, i) => (
@@ -277,7 +438,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Testimonials Section with Images */}
+      {/* Testimonials Section */}
       <section className="py-20 bg-gradient-primary text-white">
         <div className="container">
           <div className="text-center mb-12">
@@ -285,26 +446,24 @@ const Home = () => {
               <FontAwesomeIcon icon={faComments} className="text-white" />
               <span className="text-white text-sm">Success Stories</span>
             </div>
-            <h2 className="text-4xl font-bold mb-4">What Our Community Says</h2>
-            <p className="text-xl opacity-90 max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Community Says</h2>
+            <p className="text-lg opacity-90 max-w-2xl mx-auto">
               Hear from young leaders who transformed their lives through RLG
             </p>
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <div className="testimonial-card bg-white text-gray-900 p-8 rounded-2xl shadow-xl">
-              <FontAwesomeIcon icon={faQuoteLeft} size="3x" className="text-green-light mb-4 opacity-50" />
-              <p className="text-xl mb-6 leading-relaxed">{testimonials[currentTestimonial].text}</p>
-              <div className="flex items-center justify-between">
+            <div className="testimonial-card bg-white text-gray-900 p-6 md:p-8 rounded-2xl shadow-xl">
+              <FontAwesomeIcon icon={faQuoteLeft} size="2x" className="text-green-light mb-4 opacity-50" />
+              <p className="text-lg md:text-xl mb-6 leading-relaxed">{testimonials[currentTestimonial].text}</p>
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="flex items-center gap-4">
-                  <img 
-                    src={testimonials[currentTestimonial].image} 
-                    alt={testimonials[currentTestimonial].name}
-                    className="w-16 h-16 rounded-full object-cover"
-                  />
+                  <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center text-white font-bold">
+                    {testimonials[currentTestimonial].initials}
+                  </div>
                   <div>
                     <h4 className="font-bold text-lg">{testimonials[currentTestimonial].name}</h4>
-                    <p className="text-gray-600">{testimonials[currentTestimonial].role}</p>
+                    <p className="text-gray-600 text-sm">{testimonials[currentTestimonial].role}</p>
                     <div className="flex gap-1 mt-1">
                       {[...Array(testimonials[currentTestimonial].rating)].map((_, i) => (
                         <FontAwesomeIcon key={i} icon={faStar} className="text-yellow-400 text-sm" />
@@ -318,7 +477,7 @@ const Home = () => {
                       key={idx}
                       onClick={() => setCurrentTestimonial(idx)}
                       className={`w-2 h-2 rounded-full transition ${
-                        idx === currentTestimonial ? 'bg-green w-4' : 'bg-gray-300'
+                        idx === currentTestimonial ? 'bg-green w-6' : 'bg-gray-300'
                       }`}
                     />
                   ))}
@@ -332,13 +491,13 @@ const Home = () => {
       {/* Upcoming Events Section */}
       <section className="py-20 bg-white">
         <div className="container">
-          <div className="flex justify-between items-center mb-12 flex-wrap gap-4">
+          <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-4">
             <div>
               <div className="inline-flex items-center gap-2 bg-green-light bg-opacity-20 rounded-full px-4 py-2 mb-4">
                 <FontAwesomeIcon icon={faCalendarAlt} className="text-green" />
                 <span className="text-green text-sm font-semibold">Don't Miss Out</span>
               </div>
-              <h2 className="text-4xl font-bold">Upcoming Events</h2>
+              <h2 className="text-3xl md:text-4xl font-bold">Upcoming Events</h2>
             </div>
             <Link to="/events">
               <Button variant="outline" icon={faArrowRight} iconPosition="right">
@@ -356,7 +515,7 @@ const Home = () => {
                   </div>
                   <span className="badge badge-green">{event.spots} spots left</span>
                 </div>
-                <h3 className="text-xl font-bold mb-2">{event.title}</h3>
+                <h3 className="text-lg font-bold mb-2">{event.title}</h3>
                 <div className="space-y-2 mb-4">
                   <div className="flex items-center gap-2 text-gray-600">
                     <FontAwesomeIcon icon={faClock} className="text-green text-sm" />
@@ -385,10 +544,10 @@ const Home = () => {
                 <FontAwesomeIcon icon={faTrophy} className="text-green" />
                 <span className="text-green text-sm font-semibold">Our Impact</span>
               </div>
-              <h2 className="text-4xl font-bold mb-4">Making a Difference Worldwide</h2>
-              <p className="text-gray-600 mb-6">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Making a Difference in Rwanda</h2>
+              <p className="text-gray-600 mb-6 leading-relaxed">
                 Since 2020, RLG has been committed to developing the next generation of leaders 
-                who are creating positive change in their communities.
+                who are creating positive change in their communities across Rwanda.
               </p>
               <div className="space-y-4">
                 <div>
@@ -422,23 +581,23 @@ const Home = () => {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="card p-6 text-center">
-                <FontAwesomeIcon icon={faTree} size="3x" className="text-green mb-3" />
-                <div className="stat-number">5,000+</div>
+                <FontAwesomeIcon icon={faTree} size="2x" className="text-green mb-3" />
+                <div className="stat-number text-2xl md:text-3xl">5,000+</div>
                 <p className="text-gray-600 text-sm">Trees Planted</p>
               </div>
               <div className="card p-6 text-center">
-                <FontAwesomeIcon icon={faBookOpen} size="3x" className="text-green mb-3" />
-                <div className="stat-number">50+</div>
+                <FontAwesomeIcon icon={faBookOpen} size="2x" className="text-green mb-3" />
+                <div className="stat-number text-2xl md:text-3xl">50+</div>
                 <p className="text-gray-600 text-sm">Scholarships</p>
               </div>
               <div className="card p-6 text-center">
-                <FontAwesomeIcon icon={faLaptopCode} size="3x" className="text-green mb-3" />
-                <div className="stat-number">30+</div>
+                <FontAwesomeIcon icon={faLaptopCode} size="2x" className="text-green mb-3" />
+                <div className="stat-number text-2xl md:text-3xl">30+</div>
                 <p className="text-gray-600 text-sm">Tech Workshops</p>
               </div>
               <div className="card p-6 text-center">
-                <FontAwesomeIcon icon={faAward} size="3x" className="text-green mb-3" />
-                <div className="stat-number">25+</div>
+                <FontAwesomeIcon icon={faAward} size="2x" className="text-green mb-3" />
+                <div className="stat-number text-2xl md:text-3xl">25+</div>
                 <p className="text-gray-600 text-sm">Awards Won</p>
               </div>
             </div>
@@ -456,8 +615,8 @@ const Home = () => {
           <div className="flex flex-wrap justify-center gap-8 items-center">
             {partners.map((partner, index) => (
               <div key={index} className="text-center">
-                <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <FontAwesomeIcon icon={faHandshake} className="text-gray-400 text-3xl" />
+                <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <FontAwesomeIcon icon={faHandshake} className="text-gray-400 text-2xl" />
                 </div>
                 <span className="text-sm text-gray-600">{partner}</span>
               </div>
@@ -469,10 +628,10 @@ const Home = () => {
       {/* Newsletter & CTA Section */}
       <section className="py-20">
         <div className="container">
-          <div className="newsletter text-center">
+          <div className="newsletter text-center p-6 md:p-12">
             <FontAwesomeIcon icon={faEnvelope} size="3x" className="mb-4" />
-            <h3 className="text-3xl font-bold mb-4">Stay Updated with RLG</h3>
-            <p className="text-lg mb-6 opacity-90 max-w-2xl mx-auto">
+            <h3 className="text-2xl md:text-3xl font-bold mb-4">Stay Updated with RLG</h3>
+            <p className="text-base md:text-lg mb-6 opacity-90 max-w-2xl mx-auto">
               Subscribe to our newsletter for leadership tips, event announcements, and success stories.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
@@ -481,12 +640,12 @@ const Home = () => {
                 placeholder="Enter your email address"
                 className="bg-white text-gray-900"
               />
-              <button onClick={handleJoinNewsletter} className="btn btn-primary">
+              <button onClick={handleJoinNewsletter} className="btn btn-primary whitespace-nowrap">
                 Subscribe Now
                 <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
               </button>
             </div>
-            <p className="text-sm mt-4 opacity-75">
+            <p className="text-xs md:text-sm mt-4 opacity-75">
               <FontAwesomeIcon icon={faHeart} className="mr-1" />
               No spam, unsubscribe anytime
             </p>
@@ -497,9 +656,9 @@ const Home = () => {
       {/* CTA Section */}
       <section className="py-20 bg-gradient-primary text-white">
         <div className="container text-center">
-          <h2 className="text-4xl font-bold mb-4">Ready to Start Your Leadership Journey?</h2>
-          <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Join thousands of young leaders who are making a difference around the world.
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Start Your Leadership Journey?</h2>
+          <p className="text-base md:text-lg mb-8 opacity-90 max-w-2xl mx-auto">
+            Join young leaders who are making a difference in Rwanda and around the world.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button onClick={handleApplyNow}>
@@ -521,22 +680,22 @@ const Home = () => {
 
 const features = [
   {
-    icon: programIcon1,
+    icon: faLightbulb,
     title: "World-Class Mentorship",
     description: "Learn from industry leaders and experienced professionals who guide your growth journey.",
     points: ["1-on-1 mentoring sessions", "Career guidance", "Networking opportunities", "Personalized feedback"]
   },
   {
-    icon: programIcon2,
+    icon: faGlobe,
     title: "Global Community",
     description: "Connect with like-minded peers from around the world and build lasting networks.",
-    points: ["50+ countries represented", "Cultural exchange programs", "Global conferences", "Online community platform"]
+    points: ["3+ countries represented", "Cultural exchange programs", "Global conferences", "Online community platform"]
   },
   {
-    icon: programIcon3,
+    icon: faChartLine,
     title: "Real Projects",
     description: "Work on impactful initiatives that create tangible change in communities.",
-    points: ["Social impact rojects", "Leadership portfolios", "Funding opportunities", "Recognition awards"]
+    points: ["Social impact projects", "Leadership portfolios", "Funding opportunities", "Recognition awards"]
   }
 ];
 
