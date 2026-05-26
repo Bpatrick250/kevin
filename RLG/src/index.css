@@ -18,7 +18,7 @@ body {
   --primary-dark-blue: #013464;
   --primary-dark-blue-rgb: 1, 52, 100;
   
-  --primary-green: hsl(120, 95%, 63%);
+  --primary-green: lab(60.96% -63.19 60.51);
   --primary-green-rgb: 2, 135, 2;
   
   --primary-white: #FEFEFE;
@@ -29,7 +29,7 @@ body {
   --secondary-blue-rgb: 60, 131, 246;
   
   /* Gradients */
-  --gradient-primary: linear-gradient(135deg, #013464 0%, #028702 100%);
+  --gradient-primary: linear-gradient(135deg,   lch(92.1% 72.32 126.71), #50960b);
   --gradient-secondary: linear-gradient(135deg, #028702 0%, #3c83f6 100%);
   --gradient-blue: linear-gradient(135deg, #013464 0%, #3c83f6 100%);
   --gradient-green: linear-gradient(135deg, #028702 0%, #3c83f6 50%, #013464 100%);
@@ -491,7 +491,7 @@ label {
   width: 220vh;
   height: 120h;
   background: var(--primary-white);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px 0 rgba(241, 6, 6, 0.1);
   z-index: 50;
   transition: all 0.3s ease;
 }
