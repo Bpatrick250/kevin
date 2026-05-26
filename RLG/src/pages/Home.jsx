@@ -159,7 +159,7 @@ const Home = () => {
            
             </div>
             
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in ">
               Lead and Empower For Change
             
             </h1>
