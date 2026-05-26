@@ -8,7 +8,7 @@ import {
   faUsers, 
   faCalendarAlt,
   faArrowRight,
-  faRocket,
+  fa,
   faLightbulb,
   faHandshake,
   faChartLine,
