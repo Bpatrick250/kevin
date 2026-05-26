@@ -25,7 +25,7 @@ function App() {
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/donate" element={<Donate />} />
-            <Route path="/getinvolved" element={<Getinvolved />} />
+            
           </Routes>
         </main>
         <Footer />
