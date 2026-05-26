@@ -169,7 +169,7 @@ const Home = () => {
               in their communities and beyond. Join 100+ young leaders in Rwanda.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-right">
+            <div className=" justify-center animate-slide-right">
               <button onClick={handleApplyNow}>
                 <Button variant="primary" size="lg" icon={faRocket}>
                   Apply Now
