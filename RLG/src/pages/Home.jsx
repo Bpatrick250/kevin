@@ -269,7 +269,7 @@ const Home = () => {
                       {point}
                     </li>
                   ))}
-                </ul
+                </ul>
               </div>
             ))}
           </div>
