@@ -183,17 +183,28 @@ const Home = () => {
 
   return (
     <div className="pt-16">
-      {/* Hero Section with Parallel Content */}
+      {/* Hero Section with Parallel Content - No Gradient */}
       <section 
         className="hero"
         style={{
-          backgroundImage: `linear-gradient(135deg, rgba(1,52,100,0.95), rgba(2,135,2,0.85)), url(${heroBg})`,
+          backgroundImage: `url(${heroBg})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          backgroundAttachment: 'fixed'
+          backgroundAttachment: 'fixed',
+          position: 'relative'
         }}
       >
-        <div className="container py-16 md:py-20">
+        {/* Dark Overlay for text readability */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.6)'
+        }}></div>
+        
+        <div className="container py-16 md:py-20" style={{ position: 'relative', zIndex: 2 }}>
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Left Content */}
             <div className="text-center md:text-left">
@@ -202,9 +213,9 @@ const Home = () => {
                 <span className="text-white text-sm">Applications Open for 2025 Cohort</span>
               </div>
               
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white">
                 Lead and Empower
-                <span className="block bg-gradient-green bg-clip-text text-transparent">
+                <span className="block text-green-light">
                   For Change
                 </span>
               </h1>
