@@ -521,48 +521,164 @@ label {
   border-radius: 2px;
 }
 
-/* Footer */
+/* Footer Styles - Professional Blue Theme */
 .footer {
-  background: greenyellow;
-  color: var(--primary-white);
-  padding: 3rem 0 1.5rem;
-  background-color: greenyellow;
+  background: linear-gradient(135deg, #013464 0%, #012a50 100%);
+  color: #FEFEFE;
+  position: relative;
+  margin-top: auto;
 }
 
-.footer-link {
-  color: #9ca3af;
-  text-decoration: none;
-  transition: color 0.3s ease;
+/* Top Wave Decoration */
+.footer-wave {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  line-height: 0;
 }
 
-.footer-link:hover {
-  color: var(--primary-green);
+.footer-wave svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 60px;
 }
 
-/* Badges */
-.badge {
-  display: inline-block;
-  padding: 0.25rem 0.75rem;
-  border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 600;
+/* Subtle Pattern Overlay */
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
+  pointer-events: none;
 }
 
-.badge-primary {
-  background: rgba(1, 52, 100, 0.1);
-  color: var(--primary-dark-blue);
+/* Top Border Accent */
+.footer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa, #3b82f6);
 }
 
-.badge-green {
-  background: rgba(2, 135, 2, 0.1);
-  color: var(--primary-green);
+/* Social Icons */
+.social-icon {
+  position: relative;
+  overflow: hidden;
 }
 
-.badge-secondary {
-  background: rgba(60, 131, 246, 0.1);
-  color: var(--secondary-blue);
+.social-icon:hover {
+  background: var(--hover-color) !important;
 }
 
+.social-icon:hover svg {
+  color: white !important;
+}
+
+/* List Item Hover Effect */
+.footer ul li a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Newsletter Input */
+.footer input[type="email"] {
+  transition: all 0.3s ease;
+}
+
+.footer input[type="email"]:focus {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+/* Heart Animation */
+@keyframes gentlePulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.animate-pulse {
+  animation: gentlePulse 1.5s ease-in-out infinite;
+}
+
+/* Responsive Footer */
+@media (max-width: 1024px) {
+  .footer-wave svg {
+    height: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-wave svg {
+    height: 30px;
+  }
+  
+  .footer .grid {
+    gap: 2rem;
+  }
+  
+  .footer ul li a {
+    justify-content: center;
+  }
+  
+  .footer .flex.items-center.justify-center {
+    justify-content: center;
+  }
+}
+
+/* Scroll to Top Button (Optional) */
+.scroll-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 45px;
+  height: 45px;
+  background: linear-gradient(135deg, #013464, #028702);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.scroll-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.scroll-to-top:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(59, 130, 246, 0.3);
+}
+
+/* Print Styles */
+@media print {
+  .footer {
+    background: #013464;
+    color: white;
+  }
+  
+  .footer-wave {
+    display: none;
+  }
+} 
 /* Progress Bar */
 .progress-bar {
   height: 8px;
