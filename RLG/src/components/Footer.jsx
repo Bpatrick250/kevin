@@ -97,16 +97,16 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4 text-white relative inline-block">
               Quick Links
-              <span className="absolute bottom-0 left-0 w-12 h-0.5 bg-green mt-1"></span>
+              <span className="absolute bottom-0 left-0 w-12 h-0.5 bg-blue-600 mt-1"></span>
             </h4>
             <ul className="space-y-3">
               {quickLinks.map((link, index) => (
                 <li key={index}>
                   <Link 
                     to={link.to} 
-                    className="text-gray-300 hover:text-green transition-all duration-300 flex items-center gap-2 group"
+                    className="text-gray-300 hover:text-blue-600 transition-all duration-300 flex items-center gap-2 group"
                   >
-                    <span className="w-0 group-hover:w-2 h-0.5 bg-green transition-all duration-300"></span>
+                    <span className="w-0 group-hover:w-2 h-0.5 bg-blue-600 transition-all duration-300"></span>
                     {link.label}
                   </Link>
                 </li>
@@ -118,16 +118,16 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4 text-white relative inline-block">
               Get Involved
-              <span className="absolute bottom-0 left-0 w-12 h-0.5 bg-green mt-1"></span>
+              <span className="absolute bottom-0 left-0 w-12 h-0.5 bg-blue-600 mt-1"></span>
             </h4>
             <ul className="space-y-3">
               {getInvolvedLinks.map((link, index) => (
                 <li key={index}>
                   <Link 
                     to={link.to} 
-                    className="text-gray-300 hover:text-green transition-all duration-300 flex items-center gap-2 group"
+                    className="text-gray-300 hover:text-blue-600 transition-all duration-300 flex items-center gap-2 group"
                   >
-                    <span className="w-0 group-hover:w-2 h-0.5 bg-green transition-all duration-300"></span>
+                    <span className="w-0 group-hover:w-2 h-0.5 bg-blue-600 transition-all duration-300"></span>
                     {link.label}
                   </Link>
                 </li>
@@ -139,39 +139,39 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4 text-white relative inline-block">
               Connect With Us
-              <span className="absolute bottom-0 left-0 w-12 h-0.5 bg-green mt-1"></span>
+              <span className="absolute bottom-0 left-0 w-12 h-0.5 bg-blue-600 mt-1"></span>
             </h4>
             <ul className="space-y-3">
               <li className="flex items-start gap-3 text-gray-300">
-                <FontAwesomeIcon icon={faMapMarkerAlt} className="text-green mt-1" />
+                <FontAwesomeIcon icon={faMapMarkerAlt} className="text-blue-600 mt-1" />
                 <span className="text-sm">KG 123 St, Kigali, Rwanda</span>
               </li>
               <li className="flex items-center gap-3 text-gray-300">
-                <FontAwesomeIcon icon={faEnvelope} className="text-green" />
-                <a href="mailto:contact@rlg.org" className="hover:text-green transition">contact@rlg.org</a>
+                <FontAwesomeIcon icon={faEnvelope} className="text-blue-600" />
+                <a href="mailto:contact@rlg.org" className="hover:text-blue-600 transition">contact@rlg.org</a>
               </li>
               <li className="flex items-center gap-3 text-gray-300">
-                <FontAwesomeIcon icon={faPhone} className="text-green" />
-                <a href="tel:+250788123456" className="hover:text-green transition">+250 788 123 456</a>
+                <FontAwesomeIcon icon={faPhone} className="text-blue-600" />
+                <a href="tel:+250788123456" className="hover:text-blue-600 transition">+250 788 123 456</a>
               </li>
             </ul>
             
             {/* Newsletter Signup */}
             <div className="mt-6">
               <p className="text-sm text-gray-300 mb-3 flex items-center gap-2">
-                <FontAwesomeIcon icon={faPaperPlane} className="text-green" />
+                <FontAwesomeIcon icon={faPaperPlane} className="text-blue-600" />
                 Subscribe to our newsletter
               </p>
               <form onSubmit={handleNewsletterSubscribe} className="flex">
                 <input 
                   type="email" 
                   placeholder="Your email address" 
-                  className="flex-1 px-4 py-2 text-sm rounded-l-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-green"
+                  className="flex-1 px-4 py-2 text-sm rounded-l-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
                   required
                 />
                 <button 
                   type="submit"
-                  className="bg-green hover:bg-green-dark px-4 py-2 rounded-r-lg transition-all duration-300 hover:scale-105"
+                  className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-r-lg transition-all duration-300 hover:scale-105"
                 >
                   <FontAwesomeIcon icon={faArrowRight} className="text-white" />
                 </button>
@@ -190,12 +190,12 @@ const Footer = () => {
               <span className="hidden md:inline">All rights reserved.</span>
             </p>
             <div className="flex items-center gap-2 mt-2 md:mt-0">
-              <FontAwesomeIcon icon={faHeart} className="text-green text-xs" />
+              <FontAwesomeIcon icon={faHeart} className="text-blue-600 text-xs" />
               <span>Made with passion for young leaders in Rwanda</span>
             </div>
             <div className="flex space-x-6 mt-2 md:mt-0">
-              <a href="#" className="hover:text-green transition">Privacy Policy</a>
-              <a href="#" className="hover:text-green transition">Terms of Service</a>
+              <a href="#" className="hover:text-blue-600 transition">Privacy Policy</a>
+              <a href="#" className="hover:text-blue-600 transition">Terms of Service</a>
             </div>
           </div>
         </div>
