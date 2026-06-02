@@ -647,38 +647,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* EVENTS */}
-      <section className="rlg-events">
-        <div className="rlg-container">
-          <div className="rlg-events-header">
-            <div>
-              <div className="rlg-label"><FontAwesomeIcon icon={faCalendarAlt} /> Don't Miss Out</div>
-              <h2 className="rlg-section-title">Upcoming Events</h2>
-            </div>
-            <Link to="/events">
-              <button className="btn-ghost-rlg">View All <FontAwesomeIcon icon={faArrowRight} /></button>
-            </Link>
-          </div>
-          <div className="rlg-evt-grid">
-            {upcomingEvents.map((ev, i) => (
-              <div key={i} className="rlg-evt-card fade-up" style={{ animationDelay: `${i * 0.1}s` }}>
-                <div className="rlg-evt-top">
-                  <div className="rlg-evt-icon"><FontAwesomeIcon icon={faCalendarAlt} /></div>
-                  <span className="rlg-badge">{ev.spots} spots left</span>
-                </div>
-                <h3>{ev.title}</h3>
-                <div className="rlg-evt-meta">
-                  <span><FontAwesomeIcon icon={faClock} />{ev.time}</span>
-                  <span><FontAwesomeIcon icon={faMapMarkerAlt} />{ev.location}</span>
-                </div>
-                <button className="btn-green-rlg" style={{ width: "100%", justifyContent: "center" }} onClick={handleApply}>
-                  Register Now <FontAwesomeIcon icon={faArrowRight} />
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      
 
       {/* IMPACT */}
       <section className="rlg-impact">
