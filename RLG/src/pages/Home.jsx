@@ -37,11 +37,6 @@ const programs = [
   { title: "Sustainability Champions", description: "Lead environmental projects and become a catalyst for green change in your community.", duration: "8 Weeks", spots: "10 spots left", icon: faLeaf },
 ];
 
-const upcomingEvents = [
-  { title: "Leadership Summit 2025", date: "June 15, 2025", time: "9:00 AM – 6:00 PM", location: "Virtual + Kigali", spots: 150 },
-  { title: "Design Thinking Workshop", date: "July 5, 2025", time: "2:00 PM – 5:00 PM", location: "Online", spots: 50 },
-  { title: "Networking Gala", date: "August 20, 2025", time: "6:00 PM – 9:00 PM", location: "Kigali", spots: 200 },
-];
 
 const partners = ["Google", "Microsoft", "UN Foundation", "Harvard", "MIT", "World Bank"];
 
