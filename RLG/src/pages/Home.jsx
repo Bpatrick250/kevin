@@ -50,7 +50,7 @@ const features = [
   {
     icon: faGlobe,
     title: "Global Community",
-    description: "Connect with like-minded peers from around the world and build lasting networks.",
+    description: "Connect with like-minded peers from around Rwanda and build lasting networks.",
     points: ["3+ countries represented", "Cultural exchange programs", "Global conferences", "Online community platform"],
   },
   {
