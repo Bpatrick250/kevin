@@ -6,7 +6,7 @@ import {
   faUser, faTag, faEye, faHeart, faShare, faComment,
   faNewspaper, faSpinner, faClock, faBell, faRss,
   faBookOpen, faLightbulb, faUsers, faCalendarWeek,
-  faChartLine, faLeaf, faTrophy, faCrown
+  faChartLine, faLeaf, faTrophy, faCrown, faHandshake
 } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 import { heroBg } from "../assets";
