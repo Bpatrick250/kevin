@@ -26,7 +26,7 @@ const showToast = (message, icon = "success") =>
 
 /* ─── Data ────────────────────────────────────────────────────── */
 const testimonials = [
-  { name: "Sarah Johnson", role: "RLG Alumni 2024", text: "RLG transformed my leadership journey. The mentorship I received helped me launch my own non-profit organization!", rating: 5, initials: "SJ" },
+  { name: "Mukeshimana Kevin", role: "RLG Club Member at ESSA NYARUGUNGA 2026", text: "RLG transformed my leadership journey. The mentorship I received helped me gain more public speaking skills!", rating: 5, initials: "MK" },
   { name: "Michael Chen", role: "Current Fellow", text: "The global network and resources provided by RLG are unmatched. I've connected with mentors from top companies worldwide.", rating: 5, initials: "MC" },
   { name: "Dr. Amina Patel", role: "Lead Mentor", text: "Working with RLG fellows has been incredibly rewarding. These young leaders are truly shaping our future.", rating: 5, initials: "AP" },
 ];
