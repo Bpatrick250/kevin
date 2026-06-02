@@ -2,16 +2,15 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faPhone, faEnvelope, faMapMarkerAlt, faFacebook, faTwitter,
-  faInstagram, faPaperPlane, faCheckCircle, faClock,
-  faComments, faHandshake, faHeart, faQuestionCircle,
-  faArrowRight, faSpinner, faBuilding, faUserGraduate,
-  faCalendarAlt, faGlobe, faShieldHeart, faStar
+  faPhone, faEnvelope, faMapMarkerAlt, faPaperPlane, 
+  faClock, faQuestionCircle, faHandshake, faHeart, 
+  faStar, faUserGraduate, faGlobe, faShieldHeart,
+  faSpinner, faCheckCircle
 } from "@fortawesome/free-solid-svg-icons";
 import {
-  faFacebook as faFacebookBrand,
-  faTwitter as faTwitterBrand,
-  faInstagram as faInstagramBrand
+  faFacebook,
+  faTwitter,
+  faInstagram
 } from "@fortawesome/free-brands-svg-icons";
 import Swal from "sweetalert2";
 import { heroBg } from "../assets";
@@ -87,9 +86,9 @@ export default function Contact() {
   ];
 
   const socialLinks = [
-    { name: "Facebook", icon: faFacebookBrand, handle: "@RLG RWANDA", url: "https://facebook.com", color: "#1877f2" },
-    { name: "Twitter", icon: faTwitterBrand, handle: "@RLG RWANDA", url: "https://twitter.com", color: "#1da1f2" },
-    { name: "Instagram", icon: faInstagramBrand, handle: "@RLG RWANDA", url: "https://instagram.com", color: "#e4405f" }
+    { name: "Facebook", icon: faFacebook, handle: "@RLG RWANDA", url: "https://facebook.com", color: "#1877f2" },
+    { name: "Twitter", icon: faTwitter, handle: "@RLG RWANDA", url: "https://twitter.com", color: "#1da1f2" },
+    { name: "Instagram", icon: faInstagram, handle: "@RLG RWANDA", url: "https://instagram.com", color: "#e4405f" }
   ];
 
   const subjects = [
@@ -230,6 +229,8 @@ export default function Contact() {
           transition: var(--transition);
           border: 1px solid #e5e7eb;
           min-width: 180px;
+          text-decoration: none;
+          display: block;
         }
         .rlg-social-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
         .rlg-social-icon {
@@ -371,15 +372,14 @@ export default function Contact() {
                 href={social.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                className="rlg-social-card"
                 style={{ textDecoration: "none" }}
               >
-                <div className="rlg-social-card fade-up-3" style={{ animationDelay: `${index * 0.1}s` }}>
-                  <div className="rlg-social-icon" style={{ background: social.color }}>
-                    <FontAwesomeIcon icon={social.icon} style={{ color: "#fff", fontSize: "1.3rem" }} />
-                  </div>
-                  <h4>{social.name}</h4>
-                  <p>{social.handle}</p>
+                <div className="rlg-social-icon" style={{ background: social.color }}>
+                  <FontAwesomeIcon icon={social.icon} style={{ color: "#fff", fontSize: "1.3rem" }} />
                 </div>
+                <h4>{social.name}</h4>
+                <p>{social.handle}</p>
               </a>
             ))}
           </div>
