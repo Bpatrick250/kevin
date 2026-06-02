@@ -532,7 +532,7 @@ export default function Home() {
 
         /* ── Vision Section ── */
         .rlg-vision { background: linear-gradient(135deg, #0a2a1a, #14532d); padding: 5rem 0; text-align: center; color: #fff; }
-        .rlg-vision h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.8rem, 3vw, 2.5rem); margin-bottom: 1rem; }
+        .rlg-vision h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.8rem, 3vw, 2.5rem); margin-bottom: 1rem;color: #fff }
         .rlg-vision p { max-width: 700px; margin: 0 auto 2rem; color: rgba(255,255,255,.8); }
         .rlg-vision-stats { display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; margin-top: 2rem; }
         .rlg-vision-stat { text-align: center; }
