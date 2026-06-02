@@ -500,7 +500,7 @@ export default function Home() {
           <div className="rlg-stats-grid">
             {[
               { val: members,   label: "Active Members",  sub: "↑ 45% this year",    icon: faUsers,        col: "var(--green-700)" },
-              { val: countries, label: "Countries",       sub: "Global reach",        icon: faGlobe,        col: "var(--green-700)" },
+            
               { val: mentors,   label: "Expert Mentors",  sub: "Industry leaders",    icon: faGraduationCap, col: "var(--green-700)" },
               { val: events,    label: "Events Yearly",   sub: "Workshops & summits", icon: faCalendarAlt,  col: "var(--green-700)" },
             ].map(({ val, label, sub, icon }, i) => (
