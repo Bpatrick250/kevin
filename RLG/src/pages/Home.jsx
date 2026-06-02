@@ -454,8 +454,8 @@ export default function Home() {
           <div className="rlg-hero-grid">
             <div className="fade-up">
               <div className="rlg-hero-badge">
-                <FontAwesomeIcon icon={faBullhorn} />
-                <span>Applications Open for 2025 Cohort</span>
+              
+                
               </div>
               <h1>
                 Lead and Empower
