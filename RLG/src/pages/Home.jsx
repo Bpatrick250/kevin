@@ -38,12 +38,12 @@ const programs = [
 ];
 
 
-const partners = ["Google", "Microsoft", "UN Foundation", "Harvard", "MIT", "World Bank"];
+
 
 const features = [
   {
     icon: faLightbulb,
-    title: "World-Class Mentorship",
+    title: "National-Class Mentorship",
     description: "Learn from industry leaders and experienced professionals who guide your growth journey.",
     points: ["1-on-1 mentoring sessions", "Career guidance", "Networking opportunities", "Personalized feedback"],
   },
@@ -691,22 +691,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PARTNERS */}
-      <section className="rlg-partners">
-        <div className="rlg-container">
-          <h3>Trusted By Leading Organizations</h3>
-          <p className="sub">Join 100+ partners who believe in our mission</p>
-          <div className="rlg-partner-row">
-            {partners.map((p, i) => (
-              <div key={i} className="rlg-partner-pill">
-                <FontAwesomeIcon icon={faHandshake} />
-                <span>{p}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
+      
       {/* NEWSLETTER */}
       <section className="rlg-newsletter">
         <div className="rlg-container">
