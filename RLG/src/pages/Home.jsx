@@ -11,7 +11,7 @@ import {
   faMicrophone, faChalkboardUser, faPeopleGroup, faBrain,
   faFlag, faHandshakeSimple, faMedal, faFire, faNewspaper,
   faShieldHeart, faSeedling, faHandsHelping, faCompass,
-  faGem, faDove, faHandSpock, faSmile, faUsersRayed
+  faGem, faDove, faHandSpock, faSmile
 } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 import {
@@ -40,7 +40,7 @@ const coreValues = [
   { name: "Loyalty", icon: faDove, color: "#15803d", description: "Faithful dedication to our mission" },
   { name: "Passion", icon: faFire, color: "#16a34a", description: "Enthusiasm that drives change" },
   { name: "Sociable", icon: faSmile, color: "#22c55e", description: "Building meaningful connections" },
-  { name: "Team Work", icon: faUsersRayed, color: "#14532d", description: "Collaboration for greater impact" },
+  { name: "Team Work", icon: faHandshake, color: "#14532d", description: "Collaboration for greater impact" },
   { name: "Competence & Excellence", icon: faGem, color: "#166534", description: "Mastery and outstanding quality" },
   { name: "Respect", icon: faHandSpock, color: "#15803d", description: "Valuing every individual's dignity" },
   { name: "Dignity", icon: faMedal, color: "#16a34a", description: "Honorable conduct and self-worth" },
