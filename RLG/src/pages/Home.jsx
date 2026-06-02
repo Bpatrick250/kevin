@@ -485,8 +485,8 @@ export default function Home() {
                   <FontAwesomeIcon icon={faUsers} style={{ color: "#fff" }} />
                 </div>
                 <div>
-                  <b>100+ Leaders</b>
-                  <span>Across 3 countries</span>
+                  <b>100+ Young Leaders</b>
+                  <span>Across Rwanda</span>
                 </div>
               </div>
             </div>
