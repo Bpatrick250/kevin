@@ -51,7 +51,7 @@ const features = [
     icon: faGlobe,
     title: "Global Community",
     description: "Connect with like-minded peers from around Rwanda and build lasting networks.",
-    points: ["3+ countries represented", "Cultural exchange programs", "Global conferences", "Online community platform"],
+    points: ["Rwandans country represented", "Cultural exchange programs", "Global conferences", "Online community platform"],
   },
   {
     icon: faChartLine,
