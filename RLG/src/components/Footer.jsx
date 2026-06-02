@@ -82,40 +82,38 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="footer">
-        {/* Top Decorative Border */}
+      <footer className="rlg-footer">
+        {/* Top Border */}
         <div className="footer-top-border"></div>
 
-        {/* Main Footer Content */}
-        <div className="footer-container">
+        {/* Main Footer */}
+        <div className="footer-main">
           <div className="footer-grid">
             
             {/* Brand Section */}
             <div className="footer-brand">
               <Link to="/" className="footer-logo">
                 <img src={logo} alt="RLG Logo" />
-                <div>
-                  <span className="footer-logo-text">Rising Leaders</span>
-                  <span className="footer-logo-sub">of Generation</span>
+                <div className="footer-logo-text">
+                  <span>Rising Leaders</span>
+                  <span>of Generation</span>
                 </div>
               </Link>
               <p className="footer-description">
                 Empowering the next generation of leaders to create meaningful change in their communities and beyond.
               </p>
               
-              {/* Trust Badges */}
               <div className="footer-badges">
-                <div className="footer-badge">
+                <span className="footer-badge">
                   <FontAwesomeIcon icon={faCertificate} />
-                  <span>Certified</span>
-                </div>
-                <div className="footer-badge">
+                  Certified
+                </span>
+                <span className="footer-badge">
                   <FontAwesomeIcon icon={faShieldAlt} />
-                  <span>Trusted</span>
-                </div>
+                  Trusted
+                </span>
               </div>
               
-              {/* Social Links */}
               <div className="footer-social">
                 {socialLinks.map((social, index) => (
                   <a
@@ -133,95 +131,60 @@ const Footer = () => {
             </div>
             
             {/* Quick Links */}
-            <div className="footer-section">
-              <h4 className="footer-title">Quick Links</h4>
-              <ul className="footer-links">
+            <div className="footer-links-section">
+              <h4>Quick Links</h4>
+              <ul>
                 {quickLinks.map((link, index) => (
                   <li key={index}>
-                    <Link to={link.to}>
-                      <span className="footer-link-dot"></span>
-                      {link.label}
-                    </Link>
+                    <Link to={link.to}>{link.label}</Link>
                   </li>
                 ))}
               </ul>
             </div>
             
             {/* Get Involved */}
-            <div className="footer-section">
-              <h4 className="footer-title">Get Involved</h4>
-              <ul className="footer-links">
+            <div className="footer-links-section">
+              <h4>Get Involved</h4>
+              <ul>
                 {getInvolvedLinks.map((link, index) => (
                   <li key={index}>
-                    <Link to={link.to}>
-                      <span className="footer-link-dot"></span>
-                      {link.label}
-                    </Link>
+                    <Link to={link.to}>{link.label}</Link>
                   </li>
                 ))}
               </ul>
             </div>
             
             {/* Resources */}
-            <div className="footer-section">
-              <h4 className="footer-title">Resources</h4>
-              <ul className="footer-links">
+            <div className="footer-links-section">
+              <h4>Resources</h4>
+              <ul>
                 {resourcesLinks.map((link, index) => (
                   <li key={index}>
-                    <Link to={link.to}>
-                      <span className="footer-link-dot"></span>
-                      {link.label}
-                    </Link>
+                    <Link to={link.to}>{link.label}</Link>
                   </li>
                 ))}
               </ul>
             </div>
             
             {/* Contact & Newsletter */}
-            <div className="footer-section footer-contact">
-              <h4 className="footer-title">Connect With Us</h4>
-              <ul className="footer-contact-list">
-                <li>
-                  <div className="footer-contact-icon">
-                    <FontAwesomeIcon icon={faMapMarkerAlt} />
-                  </div>
-                  <span>KG 123 St, Kigali, Rwanda</span>
-                </li>
-                <li>
-                  <div className="footer-contact-icon">
-                    <FontAwesomeIcon icon={faEnvelope} />
-                  </div>
-                  <a href="mailto:contact@rlg.org">contact@rlg.org</a>
-                </li>
-                <li>
-                  <div className="footer-contact-icon">
-                    <FontAwesomeIcon icon={faPhone} />
-                  </div>
-                  <a href="tel:+250788123456">+250 788 123 456</a>
-                </li>
-                <li>
-                  <div className="footer-contact-icon">
-                    <FontAwesomeIcon icon={faClock} />
-                  </div>
-                  <span>Mon-Fri: 9:00 AM - 6:00 PM</span>
-                </li>
-              </ul>
+            <div className="footer-contact-section">
+              <h4>Connect With Us</h4>
+              <div className="footer-contact-info">
+                <p><FontAwesomeIcon icon={faMapMarkerAlt} /> KG 123 St, Kigali, Rwanda</p>
+                <p><FontAwesomeIcon icon={faEnvelope} /> <a href="mailto:contact@rlg.org">contact@rlg.org</a></p>
+                <p><FontAwesomeIcon icon={faPhone} /> <a href="tel:+250788123456">+250 788 123 456</a></p>
+                <p><FontAwesomeIcon icon={faClock} /> Mon-Fri: 9:00 AM - 6:00 PM</p>
+              </div>
               
-              {/* Newsletter Signup */}
               <div className="footer-newsletter">
-                <p className="footer-newsletter-title">
-                  <FontAwesomeIcon icon={faPaperPlane} />
-                  Subscribe to our newsletter
-                </p>
-                <form onSubmit={handleNewsletterSubscribe} className="footer-newsletter-form">
+                <p><FontAwesomeIcon icon={faPaperPlane} /> Subscribe to our newsletter</p>
+                <form onSubmit={handleNewsletterSubscribe}>
                   <input type="email" placeholder="Your email address" required />
                   <button type="submit">
                     <FontAwesomeIcon icon={faArrowRight} />
                   </button>
                 </form>
-                <p className="footer-newsletter-note">
-                  No spam, unsubscribe anytime.
-                </p>
+                <small>No spam, unsubscribe anytime.</small>
               </div>
             </div>
           </div>
@@ -229,10 +192,8 @@ const Footer = () => {
         
         {/* Bottom Bar */}
         <div className="footer-bottom">
-          <div className="footer-bottom-container">
-            <p>
-              &copy; {currentYear} Rising Leaders of Generation. All rights reserved.
-            </p>
+          <div className="footer-bottom-content">
+            <p>&copy; {currentYear} Rising Leaders of Generation. All rights reserved.</p>
             <div className="footer-bottom-love">
               <FontAwesomeIcon icon={faHeart} className="footer-heart" />
               <span>Made with passion for young leaders in Rwanda</span>
@@ -246,22 +207,23 @@ const Footer = () => {
         </div>
       </footer>
 
-      {/* Scroll to Top Button */}
+      {/* Scroll to Top */}
       {showScrollTop && (
-        <button className="scroll-to-top" onClick={scrollToTop}>
+        <button className="scroll-top-btn" onClick={scrollToTop}>
           <FontAwesomeIcon icon={faArrowUp} />
         </button>
       )}
 
-      {/* Styles */}
-      <style jsx>{`
-        /* Footer Container */
-        .footer {
+      <style>{`
+        /* ========================================
+           FOOTER STYLES
+        ======================================== */
+        .rlg-footer {
           background: linear-gradient(135deg, #0a1a3a 0%, #06122a 100%);
           color: #ffffff;
           position: relative;
           margin-top: auto;
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          width: 100%;
         }
 
         /* Top Border */
@@ -270,47 +232,49 @@ const Footer = () => {
           top: 0;
           left: 0;
           right: 0;
-          height: 4px;
-          background: linear-gradient(90deg, #3b82f6, #60a5fa, #3b82f6);
+          height: 3px;
+          background: linear-gradient(90deg, #22c55e, #16a34a, #22c55e);
         }
 
-        /* Container */
-        .footer-container {
+        /* Main Footer */
+        .footer-main {
           max-width: 1280px;
           margin: 0 auto;
-          padding: 3rem 1.5rem;
+          padding: 3rem 2rem;
         }
 
-        @media (min-width: 640px) {
-          .footer-container {
-            padding: 3rem 2rem;
-          }
-        }
-
-        @media (min-width: 1024px) {
-          .footer-container {
-            padding: 4rem 2rem;
-          }
-        }
-
-        /* Grid Layout */
+        /* Footer Grid */
         .footer-grid {
           display: grid;
-          grid-template-columns: repeat(1, 1fr);
+          grid-template-columns: repeat(5, 1fr);
           gap: 2rem;
         }
 
-        @media (min-width: 768px) {
+        /* Responsive Grid */
+        @media (max-width: 1024px) {
           .footer-grid {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
           }
         }
 
-        @media (min-width: 1024px) {
+        @media (max-width: 768px) {
+          .footer-main {
+            padding: 2rem 1.5rem;
+          }
           .footer-grid {
-            grid-template-columns: repeat(5, 1fr);
-            gap: 2rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .footer-main {
+            padding: 2rem 1rem;
+          }
+          .footer-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
           }
         }
 
@@ -319,13 +283,19 @@ const Footer = () => {
           grid-column: span 1;
         }
 
-        @media (min-width: 768px) {
+        @media (max-width: 1024px) {
+          .footer-brand {
+            grid-column: span 1;
+          }
+        }
+
+        @media (max-width: 768px) {
           .footer-brand {
             grid-column: span 2;
           }
         }
 
-        @media (min-width: 1024px) {
+        @media (max-width: 480px) {
           .footer-brand {
             grid-column: span 1;
           }
@@ -335,40 +305,41 @@ const Footer = () => {
         .footer-logo {
           display: flex;
           align-items: center;
-          gap: 0.5rem;
+          gap: 0.75rem;
           text-decoration: none;
           margin-bottom: 1rem;
-          transition: transform 0.3s ease;
-        }
-
-        .footer-logo:hover {
-          transform: scale(1.02);
         }
 
         .footer-logo img {
-          width: 48px;
-          height: 48px;
+          width: 50px;
+          height: 50px;
           object-fit: contain;
         }
 
         .footer-logo-text {
-          font-size: 1.25rem;
-          font-weight: 700;
-          color: #ffffff;
-          display: block;
+          display: flex;
+          flex-direction: column;
         }
 
-        .footer-logo-sub {
-          font-size: 0.75rem;
+        .footer-logo-text span:first-child {
+          font-size: 1.1rem;
+          font-weight: 800;
+          background: linear-gradient(135deg, #22c55e, #16a34a);
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+        }
+
+        .footer-logo-text span:last-child {
+          font-size: 0.7rem;
           color: #9ca3af;
-          display: block;
-          margin-top: -0.25rem;
+          margin-top: -2px;
         }
 
         /* Description */
         .footer-description {
           color: #d1d5db;
-          font-size: 0.875rem;
+          font-size: 0.85rem;
           line-height: 1.6;
           margin-bottom: 1rem;
         }
@@ -382,177 +353,122 @@ const Footer = () => {
         }
 
         .footer-badge {
-          display: flex;
+          display: inline-flex;
           align-items: center;
-          gap: 0.25rem;
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 9999px;
+          gap: 0.3rem;
+          background: rgba(255,255,255,0.05);
           padding: 0.25rem 0.75rem;
+          border-radius: 999px;
+          font-size: 0.7rem;
+          color: #d1d5db;
         }
 
         .footer-badge svg {
-          color: #3b82f6;
-          font-size: 0.75rem;
-        }
-
-        .footer-badge span {
-          color: #d1d5db;
-          font-size: 0.75rem;
+          color: #22c55e;
+          font-size: 0.7rem;
         }
 
         /* Social Icons */
         .footer-social {
           display: flex;
-          gap: 0.75rem;
           flex-wrap: wrap;
+          gap: 0.75rem;
         }
 
         .footer-social-icon {
           width: 36px;
           height: 36px;
-          background: rgba(255, 255, 255, 0.05);
+          background: rgba(255,255,255,0.05);
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
           transition: all 0.3s ease;
-          text-decoration: none;
-        }
-
-        .footer-social-icon svg {
-          color: #ffffff;
-          font-size: 1rem;
-          transition: color 0.3s ease;
+          color: #d1d5db;
         }
 
         .footer-social-icon:hover {
           transform: translateY(-3px);
-          background: rgba(59, 130, 246, 0.8);
-        }
-
-        .footer-social-icon:hover svg {
+          background: #22c55e;
           color: white;
         }
 
-        /* Footer Sections */
-        .footer-section {
-          display: flex;
-          flex-direction: column;
-        }
-
-        .footer-title {
-          font-size: 1.125rem;
-          font-weight: 600;
-          color: #ffffff;
-          margin-bottom: 1rem;
+        /* Links Sections */
+        .footer-links-section h4,
+        .footer-contact-section h4 {
+          font-size: 1rem;
+          font-weight: 700;
+          margin-bottom: 1.2rem;
           position: relative;
           display: inline-block;
           padding-bottom: 0.5rem;
         }
 
-        .footer-title::after {
+        .footer-links-section h4::after,
+        .footer-contact-section h4::after {
           content: '';
           position: absolute;
           bottom: 0;
           left: 0;
-          width: 40px;
+          width: 35px;
           height: 2px;
-          background: #3b82f6;
+          background: #22c55e;
           border-radius: 2px;
         }
 
-        /* Footer Links */
-        .footer-links {
+        .footer-links-section ul {
           list-style: none;
           padding: 0;
           margin: 0;
-          display: flex;
-          flex-direction: column;
-          gap: 0.75rem;
         }
 
-        .footer-links li a {
+        .footer-links-section li {
+          margin-bottom: 0.6rem;
+        }
+
+        .footer-links-section a {
           color: #d1d5db;
           text-decoration: none;
-          font-size: 0.875rem;
-          transition: all 0.3s ease;
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-        }
-
-        .footer-links li a:hover {
-          color: #60a5fa;
-          transform: translateX(5px);
-        }
-
-        .footer-link-dot {
-          width: 4px;
-          height: 4px;
-          background: #3b82f6;
-          border-radius: 50%;
-          display: inline-block;
-          opacity: 0;
+          font-size: 0.85rem;
           transition: all 0.3s ease;
         }
 
-        .footer-links li a:hover .footer-link-dot {
-          opacity: 1;
-          width: 6px;
-          height: 6px;
+        .footer-links-section a:hover {
+          color: #22c55e;
+          padding-left: 5px;
         }
 
-        /* Contact List */
-        .footer-contact-list {
-          list-style: none;
-          padding: 0;
-          margin: 0 0 1.5rem 0;
-          display: flex;
-          flex-direction: column;
-          gap: 0.75rem;
-        }
-
-        .footer-contact-list li {
+        /* Contact Section */
+        .footer-contact-info p {
           display: flex;
           align-items: center;
           gap: 0.75rem;
           color: #d1d5db;
-          font-size: 0.875rem;
+          font-size: 0.85rem;
+          margin-bottom: 0.75rem;
         }
 
-        .footer-contact-list li a {
+        .footer-contact-info svg {
+          color: #22c55e;
+          width: 18px;
+        }
+
+        .footer-contact-info a {
           color: #d1d5db;
           text-decoration: none;
-          transition: color 0.3s ease;
         }
 
-        .footer-contact-list li a:hover {
-          color: #60a5fa;
-        }
-
-        .footer-contact-icon {
-          width: 32px;
-          height: 32px;
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 8px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-        }
-
-        .footer-contact-icon svg {
-          color: #3b82f6;
-          font-size: 0.875rem;
+        .footer-contact-info a:hover {
+          color: #22c55e;
         }
 
         /* Newsletter */
         .footer-newsletter {
-          margin-top: 1rem;
+          margin-top: 1.5rem;
         }
 
-        .footer-newsletter-title {
-          font-size: 0.875rem;
+        .footer-newsletter p {
+          font-size: 0.85rem;
           color: #d1d5db;
           margin-bottom: 0.75rem;
           display: flex;
@@ -560,91 +476,82 @@ const Footer = () => {
           gap: 0.5rem;
         }
 
-        .footer-newsletter-title svg {
-          color: #3b82f6;
+        .footer-newsletter p svg {
+          color: #22c55e;
         }
 
-        .footer-newsletter-form {
+        .footer-newsletter form {
           display: flex;
           margin-bottom: 0.5rem;
         }
 
-        .footer-newsletter-form input {
+        .footer-newsletter input {
           flex: 1;
           padding: 0.6rem 1rem;
-          font-size: 0.875rem;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          background: rgba(255, 255, 255, 0.05);
-          color: #ffffff;
+          border: 1px solid rgba(255,255,255,0.1);
+          background: rgba(255,255,255,0.05);
           border-radius: 8px 0 0 8px;
+          color: white;
+          font-size: 0.85rem;
           outline: none;
-          transition: all 0.3s ease;
         }
 
-        .footer-newsletter-form input:focus {
-          border-color: #3b82f6;
-          background: rgba(255, 255, 255, 0.1);
+        .footer-newsletter input:focus {
+          border-color: #22c55e;
         }
 
-        .footer-newsletter-form input::placeholder {
+        .footer-newsletter input::placeholder {
           color: #9ca3af;
         }
 
-        .footer-newsletter-form button {
+        .footer-newsletter button {
           padding: 0.6rem 1rem;
-          background: #3b82f6;
+          background: #22c55e;
           border: none;
           border-radius: 0 8px 8px 0;
           cursor: pointer;
           transition: all 0.3s ease;
-          display: flex;
-          align-items: center;
-          justify-content: center;
         }
 
-        .footer-newsletter-form button svg {
+        .footer-newsletter button:hover {
+          background: #16a34a;
+        }
+
+        .footer-newsletter button svg {
           color: white;
-          font-size: 0.875rem;
         }
 
-        .footer-newsletter-form button:hover {
-          background: #2563eb;
-          transform: scale(1.02);
-        }
-
-        .footer-newsletter-note {
-          font-size: 0.7rem;
+        .footer-newsletter small {
+          font-size: 0.65rem;
           color: #9ca3af;
         }
 
         /* Bottom Bar */
         .footer-bottom {
-          border-top: 1px solid rgba(255, 255, 255, 0.05);
-          margin-top: 1rem;
+          border-top: 1px solid rgba(255,255,255,0.05);
+          padding: 1.5rem 2rem;
         }
 
-        .footer-bottom-container {
+        .footer-bottom-content {
           max-width: 1280px;
           margin: 0 auto;
-          padding: 1.5rem;
           display: flex;
-          flex-direction: column;
+          justify-content: space-between;
           align-items: center;
+          flex-wrap: wrap;
           gap: 1rem;
-          text-align: center;
         }
 
-        @media (min-width: 768px) {
-          .footer-bottom-container {
-            flex-direction: row;
-            justify-content: space-between;
-            text-align: left;
+        @media (max-width: 768px) {
+          .footer-bottom-content {
+            flex-direction: column;
+            text-align: center;
           }
         }
 
-        .footer-bottom-container p {
+        .footer-bottom-content p {
           color: #9ca3af;
-          font-size: 0.875rem;
+          font-size: 0.8rem;
         }
 
         .footer-bottom-love {
@@ -652,118 +559,64 @@ const Footer = () => {
           align-items: center;
           gap: 0.5rem;
           color: #9ca3af;
-          font-size: 0.875rem;
+          font-size: 0.8rem;
         }
 
         .footer-heart {
           color: #ef4444;
-          animation: pulse 1.5s ease-in-out infinite;
+          animation: pulse 1.5s ease infinite;
         }
 
         @keyframes pulse {
-          0%, 100% {
-            transform: scale(1);
-          }
-          50% {
-            transform: scale(1.1);
-          }
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.1); }
         }
 
         .footer-bottom-links {
           display: flex;
           gap: 1.5rem;
           flex-wrap: wrap;
-          justify-content: center;
         }
 
         .footer-bottom-links a {
           color: #9ca3af;
           text-decoration: none;
-          font-size: 0.875rem;
+          font-size: 0.8rem;
           transition: color 0.3s ease;
         }
 
         .footer-bottom-links a:hover {
-          color: #60a5fa;
+          color: #22c55e;
         }
 
         /* Scroll to Top Button */
-        .scroll-to-top {
+        .scroll-top-btn {
           position: fixed;
           bottom: 30px;
           right: 30px;
           width: 45px;
           height: 45px;
-          background: #3b82f6;
+          background: #22c55e;
           border: none;
           border-radius: 50%;
+          cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
-          cursor: pointer;
           transition: all 0.3s ease;
           z-index: 1000;
-          box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+          box-shadow: 0 4px 15px rgba(34,197,94,0.3);
         }
 
-        .scroll-to-top:hover {
-          background: #2563eb;
-          transform: translateY(-5px);
-          box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        .scroll-top-btn:hover {
+          background: #16a34a;
+          transform: translateY(-3px);
+          box-shadow: 0 6px 20px rgba(34,197,94,0.4);
         }
 
-        .scroll-to-top svg {
+        .scroll-top-btn svg {
           color: white;
-          font-size: 1.25rem;
-        }
-
-        /* Responsive Adjustments */
-        @media (max-width: 768px) {
-          .footer-section {
-            text-align: center;
-            align-items: center;
-          }
-          
-          .footer-title::after {
-            left: 50%;
-            transform: translateX(-50%);
-          }
-          
-          .footer-links li a {
-            justify-content: center;
-          }
-          
-          .footer-contact-list li {
-            justify-content: center;
-          }
-          
-          .footer-badges {
-            justify-content: center;
-          }
-          
-          .footer-social {
-            justify-content: center;
-          }
-          
-          .footer-logo {
-            justify-content: center;
-          }
-          
-          .footer-description {
-            text-align: center;
-          }
-        }
-
-        /* Print Styles */
-        @media print {
-          .footer {
-            background: #0a1a3a;
-            color: white;
-          }
-          
-          .scroll-to-top {
-            display: none;
-          }
+          font-size: 1.2rem;
         }
       `}</style>
     </>
