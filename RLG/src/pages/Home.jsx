@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -481,10 +480,6 @@ export default function Home() {
 
         /* ── Blog Cards ── */
         .rlg-blog { background: #fff; padding: 5rem 0; }
-        .rlg-blog-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem;
-
-        /* ── Blog Preview ── */
-        .rlg-blog { background: #fff; padding: 5rem 0; }
         .rlg-blog-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 3rem; }
         @media(max-width: 768px) { .rlg-blog-grid { grid-template-columns: 1fr; } }
         .rlg-blog-card {
@@ -493,53 +488,86 @@ export default function Home() {
           padding: 2rem;
           box-shadow: var(--shadow-sm);
           border: 1px solid #e5e7eb;
-          transition: var(--transition);
+          transition: all 0.4s ease;
         }
-        .rlg-blog-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
-        .rlg-blog-date { color: var(--green-600); font-size: .8rem; margin-bottom: .5rem; display: flex; align-items: center; gap: .5rem; }
-        .rlg-blog-card h3 { font-weight: 700; font-size: 1.2rem; margin-bottom: .75rem; }
+        .rlg-blog-card:hover {
+          transform: translateY(-5px);
+          box-shadow: var(--shadow-lg);
+          border-color: #22c55e;
+        }
+        .rlg-blog-date { color: #16a34a; font-size: .8rem; margin-bottom: .5rem; display: flex; align-items: center; gap: .5rem; font-weight: 600; }
+        .rlg-blog-card h3 { font-weight: 800; font-size: 1.2rem; margin-bottom: .75rem; color: #14532d; }
         .rlg-blog-card p { color: #6b7280; font-size: .9rem; line-height: 1.6; margin-bottom: 1rem; }
 
-        /* ── 7 Year Vision ── */
-        .rlg-vision { background: var(--green-800); padding: 5rem 0; text-align: center; color: #fff; }
+        /* ── Testimonials ── */
+        .rlg-testimonials { background: linear-gradient(135deg, #14532d, #0a2a1a); padding: 5rem 0; }
+        .rlg-testi-card {
+          background: #fff;
+          border-radius: var(--radius);
+          padding: 2.5rem;
+          box-shadow: var(--shadow-lg);
+          max-width: 780px;
+          margin: 2.5rem auto 0;
+          transition: transform 0.3s ease;
+        }
+        .rlg-testi-card:hover {
+          transform: scale(1.02);
+        }
+        .rlg-testi-quote { color: #22c55e; font-size: 2.5rem; margin-bottom: 1rem; opacity: .5; }
+        .rlg-testimonials .rlg-section-title { color: #fff; }
+        .rlg-testimonials .rlg-section-sub { color: rgba(255,255,255,.7); }
+        .rlg-testi-dot {
+          width: .5rem;
+          height: .5rem;
+          border-radius: 999px;
+          background: #d1d5db;
+          border: none;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        .rlg-testi-dot.active {
+          width: 1.5rem;
+          background: #22c55e;
+        }
+
+        /* ── Vision Section ── */
+        .rlg-vision { background: linear-gradient(135deg, #0a2a1a, #14532d); padding: 5rem 0; text-align: center; color: #fff; }
         .rlg-vision h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.8rem, 3vw, 2.5rem); margin-bottom: 1rem; }
         .rlg-vision p { max-width: 700px; margin: 0 auto 2rem; color: rgba(255,255,255,.8); }
         .rlg-vision-stats { display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; margin-top: 2rem; }
         .rlg-vision-stat { text-align: center; }
-        .rlg-vision-stat .number { font-size: 2rem; font-weight: 800; font-family: 'Playfair Display', serif; display: block; }
+        .rlg-vision-stat .number { font-size: 2.5rem; font-weight: 800; font-family: 'Playfair Display', serif; display: block; background: linear-gradient(135deg, #4ade80, #22c55e); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
-        /* ── Existing styles continue ── */
-        .rlg-about, .rlg-programs, .rlg-features, .rlg-testimonials, .rlg-events, .rlg-impact, .rlg-partners, .rlg-newsletter, .rlg-cta {
-          padding: 5rem 0;
+        /* ── Newsletter ── */
+        .rlg-newsletter { background: #f0fdf4; padding: 5rem 0; }
+        .rlg-newsletter-box {
+          background: linear-gradient(135deg, #14532d, #0a2a1a);
+          border-radius: 1.5rem;
+          padding: 3.5rem 2.5rem;
+          text-align: center;
+          position: relative;
+          overflow: hidden;
         }
-        .rlg-about { background: var(--green-50); }
-        .rlg-programs, .rlg-events, .rlg-partners, .rlg-blog { background: #fff; }
-        .rlg-testimonials { background: var(--green-800); }
-        .rlg-impact { background: var(--green-50); }
-        .rlg-newsletter { background: var(--green-50); }
-        .rlg-cta { background: var(--green-900); }
-
-        .rlg-about-grid, .rlg-impact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
-        @media(max-width: 768px) { .rlg-about-grid, .rlg-impact-grid { grid-template-columns: 1fr; gap: 2rem; } }
-        
-        .rlg-prog-grid, .rlg-evt-grid, .rlg-feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem; }
-        @media(max-width: 900px) { .rlg-prog-grid, .rlg-evt-grid, .rlg-feat-grid { grid-template-columns: 1fr 1fr; } }
-        @media(max-width: 600px) { .rlg-prog-grid, .rlg-evt-grid, .rlg-feat-grid { grid-template-columns: 1fr; } }
-
-        .rlg-partner-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; align-items: center; margin-top: 2rem; }
-        .rlg-partner-pill { display: flex; align-items: center; gap: .6rem; background: var(--green-50); border: 1px solid #d1d5db; border-radius: 999px; padding: .5rem 1.25rem; transition: var(--transition); }
-        .rlg-partner-pill:hover { border-color: var(--green-700); background: var(--green-100); transform: translateY(-2px); }
-        
-        .rlg-testi-card { background: #fff; border-radius: var(--radius); padding: 2.5rem; box-shadow: var(--shadow-lg); max-width: 780px; margin: 2.5rem auto 0; }
-        .rlg-testi-quote { color: var(--green-200); font-size: 2.5rem; margin-bottom: 1rem; opacity: .4; }
-        .rlg-testimonials .rlg-section-title { color: #fff; }
-        .rlg-testimonials .rlg-section-sub { color: rgba(255,255,255,.7); }
-        
-        .rlg-newsletter-box { background: var(--green-800); border-radius: 1.5rem; padding: 3.5rem 2.5rem; text-align: center; position: relative; overflow: hidden; }
         .rlg-newsletter-form { display: flex; gap: .75rem; max-width: 440px; margin: 0 auto; }
         @media(max-width: 560px) { .rlg-newsletter-form { flex-direction: column; } }
-        .rlg-newsletter-form input { flex: 1; padding: .75rem 1.25rem; border-radius: 999px; border: none; font-size: .95rem; outline: none; }
-        
+        .rlg-newsletter-form input {
+          flex: 1;
+          padding: .9rem 1.25rem;
+          border-radius: 999px;
+          border: none;
+          font-size: .95rem;
+          outline: none;
+          transition: all 0.3s ease;
+        }
+        .rlg-newsletter-form input:focus {
+          box-shadow: 0 0 0 3px rgba(34,197,94,0.3);
+        }
+
+        /* ── CTA ── */
+        .rlg-cta { background: linear-gradient(135deg, #0a2a1a, #14532d); padding: 5rem 0; text-align: center; }
+        .rlg-cta h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.8rem, 3vw, 2.5rem); margin-bottom: 1rem; color: #fff; }
+        .rlg-cta p { color: rgba(255,255,255,.8); max-width: 520px; margin: 0 auto 2rem; }
+
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Lato:wght@400;700&display=swap');
       `}</style>
 
@@ -598,22 +626,22 @@ export default function Home() {
         <div className="rlg-container">
           <div className="rlg-stats-grid">
             <div className="rlg-stat-card fade-up">
-              <div className="rlg-stat-icon"><FontAwesomeIcon icon={faUsers} style={{ color: "var(--green-700)", fontSize: "1.3rem" }} /></div>
+              <div className="rlg-stat-icon"><FontAwesomeIcon icon={faUsers} style={{ color: "#15803d", fontSize: "1.5rem" }} /></div>
               <div className="rlg-stat-num">{youthReached}+</div>
               <div className="rlg-stat-label">Youth Reached</div>
             </div>
             <div className="rlg-stat-card fade-up-1">
-              <div className="rlg-stat-icon"><FontAwesomeIcon icon={faSchool} style={{ color: "var(--green-700)", fontSize: "1.3rem" }} /></div>
+              <div className="rlg-stat-icon"><FontAwesomeIcon icon={faSchool} style={{ color: "#15803d", fontSize: "1.5rem" }} /></div>
               <div className="rlg-stat-num">{schoolsPartnered}+</div>
               <div className="rlg-stat-label">Schools Partnered</div>
             </div>
             <div className="rlg-stat-card fade-up-2">
-              <div className="rlg-stat-icon"><FontAwesomeIcon icon={faCalendarAlt} style={{ color: "var(--green-700)", fontSize: "1.3rem" }} /></div>
+              <div className="rlg-stat-icon"><FontAwesomeIcon icon={faCalendarAlt} style={{ color: "#15803d", fontSize: "1.5rem" }} /></div>
               <div className="rlg-stat-num">{annualEvents}+</div>
               <div className="rlg-stat-label">Annual Events</div>
             </div>
             <div className="rlg-stat-card fade-up-3">
-              <div className="rlg-stat-icon"><FontAwesomeIcon icon={faFlag} style={{ color: "var(--green-700)", fontSize: "1.3rem" }} /></div>
+              <div className="rlg-stat-icon"><FontAwesomeIcon icon={faFlag} style={{ color: "#15803d", fontSize: "1.5rem" }} /></div>
               <div className="rlg-stat-num">{corePrograms}</div>
               <div className="rlg-stat-label">Core Programs</div>
             </div>
@@ -648,7 +676,7 @@ export default function Home() {
                 <span className="rlg-service-badge">RLG Impact</span>
                 <span className="rlg-service-badge">RLG Green Life</span>
               </div>
-              <Link to="/programs#school"><button className="btn-ghost-rlg" style={{ marginTop: "1rem" }}>Learn More →</button></Link>
+              <Link to="/programs#school"><button className="btn-ghost-rlg">Learn More →</button></Link>
             </div>
             <div className="rlg-service-card fade-up-1">
               <div className="rlg-service-icon"><FontAwesomeIcon icon={faMicrophone} /></div>
@@ -658,7 +686,7 @@ export default function Home() {
                 <span className="rlg-service-badge">Light the Flame</span>
                 <span className="rlg-service-badge">Oasis of Wealth</span>
               </div>
-              <Link to="/programs#tournaments"><button className="btn-ghost-rlg" style={{ marginTop: "1rem" }}>Learn More →</button></Link>
+              <Link to="/programs#tournaments"><button className="btn-ghost-rlg">Learn More →</button></Link>
             </div>
             <div className="rlg-service-card fade-up-2">
               <div className="rlg-service-icon"><FontAwesomeIcon icon={faChalkboardUser} /></div>
@@ -669,7 +697,7 @@ export default function Home() {
                 <span className="rlg-service-badge">Oasis of Wealth</span>
                 <span className="rlg-service-badge">My Heritage</span>
               </div>
-              <Link to="/programs#forums"><button className="btn-ghost-rlg" style={{ marginTop: "1rem" }}>Learn More →</button></Link>
+              <Link to="/programs#forums"><button className="btn-ghost-rlg">Learn More →</button></Link>
             </div>
           </div>
         </div>
@@ -689,16 +717,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CORE VALUES */}
+      {/* CORE VALUES - CARDS */}
       <section className="rlg-values">
         <div className="rlg-container">
           <div style={{ textAlign: "center" }}>
             <div className="rlg-label"><FontAwesomeIcon icon={faMedal} /> Our Core Values</div>
             <h2 className="rlg-section-title">What We Stand For</h2>
+            <p className="rlg-section-sub" style={{ margin: "0 auto" }}>These values guide everything we do at RLG</p>
           </div>
-          <div className="rlg-values-cloud">
+          <div className="rlg-values-grid">
             {coreValues.map((value, i) => (
-              <span key={i} className="rlg-value-pill fade-up" style={{ animationDelay: `${i * 0.05}s` }}>{value}</span>
+              <div key={i} className="rlg-value-card fade-up" style={{ animationDelay: `${i * 0.05}s` }}>
+                <div className="rlg-value-icon">
+                  <FontAwesomeIcon icon={value.icon} />
+                </div>
+                <h3>{value.name}</h3>
+                <p>{value.description}</p>
+              </div>
             ))}
           </div>
         </div>
@@ -728,24 +763,30 @@ export default function Home() {
       <section className="rlg-testimonials">
         <div className="rlg-container">
           <div style={{ textAlign: "center" }}>
-            <div className="rlg-label rlg-testi-label"><FontAwesomeIcon icon={faComments} /> Success Stories</div>
+            <div className="rlg-label" style={{ background: "rgba(255,255,255,0.15)", color: "#fff" }}><FontAwesomeIcon icon={faComments} /> Success Stories</div>
             <h2 className="rlg-section-title">What Our Community Says</h2>
             <p className="rlg-section-sub" style={{ margin: "0 auto", color: "rgba(255,255,255,.7)" }}>Hear from young leaders who transformed their lives through RLG</p>
           </div>
           <div className="rlg-testi-card">
             <div className="rlg-testi-quote"><FontAwesomeIcon icon={faQuoteLeft} /></div>
             <p>{testimonials[currentTestimonial].text}</p>
-            <div className="rlg-testi-footer" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                <div className="rlg-testi-avatar" style={{ width: "3rem", height: "3rem", borderRadius: "50%", background: "var(--green-700)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold" }}>{testimonials[currentTestimonial].initials}</div>
+                <div style={{ width: "3rem", height: "3rem", borderRadius: "50%", background: "linear-gradient(135deg, #22c55e, #16a34a)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", fontSize: "1.1rem" }}>
+                  {testimonials[currentTestimonial].initials}
+                </div>
                 <div>
-                  <h4 style={{ fontWeight: 700 }}>{testimonials[currentTestimonial].name}</h4>
+                  <h4 style={{ fontWeight: 700, color: "#14532d" }}>{testimonials[currentTestimonial].name}</h4>
                   <span style={{ color: "#6b7280", fontSize: ".8rem" }}>{testimonials[currentTestimonial].role}</span>
                 </div>
               </div>
               <div style={{ display: "flex", gap: ".5rem" }}>
                 {testimonials.map((_, idx) => (
-                  <button key={idx} className={`rlg-testi-dot`} style={{ width: idx === currentTestimonial ? "1.5rem" : ".5rem", height: ".5rem", borderRadius: "999px", background: idx === currentTestimonial ? "var(--green-700)" : "#d1d5db", border: "none", cursor: "pointer", transition: "var(--transition)" }} onClick={() => setCurrentTestimonial(idx)} />
+                  <button
+                    key={idx}
+                    className={`rlg-testi-dot ${idx === currentTestimonial ? 'active' : ''}`}
+                    onClick={() => setCurrentTestimonial(idx)}
+                  />
                 ))}
               </div>
             </div>
@@ -771,7 +812,7 @@ export default function Home() {
       <section className="rlg-newsletter">
         <div className="rlg-container">
           <div className="rlg-newsletter-box">
-            <FontAwesomeIcon icon={faEnvelope} style={{ fontSize: "2.5rem", marginBottom: "1rem", color: "var(--green-400)" }} />
+            <FontAwesomeIcon icon={faEnvelope} style={{ fontSize: "2.5rem", marginBottom: "1rem", color: "#4ade80" }} />
             <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.8rem", fontWeight: 800, color: "#fff" }}>Stay Updated with RLG</h3>
             <p style={{ color: "rgba(255,255,255,.75)", marginBottom: "1.75rem" }}>Subscribe to our newsletter for leadership tips, event announcements, and success stories.</p>
             <form className="rlg-newsletter-form" onSubmit={handleNewsletter}>
@@ -788,9 +829,9 @@ export default function Home() {
         <div className="rlg-container">
           <h2>Ready to Start Your Leadership Journey?</h2>
           <p>Join young leaders who are making a difference in Rwanda and around the world.</p>
-          <div className="rlg-cta-btns" style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
             <button className="btn-white-rlg" onClick={handleApply}><FontAwesomeIcon icon={faRocket} /> Apply for Programs</button>
-            <Link to="/contact"><button className="btn-outline-rlg"><FontAwesomeIcon icon={faComments} /> Talk to an Advisor</button></Link>
+            <Link to="/contact"><button className="btn-outline-rlg" style={{ borderColor: "#fff", color: "#fff" }}><FontAwesomeIcon icon={faComments} /> Talk to an Advisor</button></Link>
           </div>
         </div>
       </section>
