@@ -453,10 +453,7 @@ export default function Home() {
         <div className="rlg-container">
           <div className="rlg-hero-grid">
             <div className="fade-up">
-              <div className="rlg-hero-badge">
-              
-                
-              </div>
+             
               <h1>
                 Lead and Empower
                 <span>For Change</span>
