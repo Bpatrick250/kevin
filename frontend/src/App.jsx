@@ -5,9 +5,21 @@ import AdminLogin from "./admin/pages/AdminLogin";
 import AdminDashboard from "./admin/pages/AdminDashboard";
 import ProtectedRoute from "./admin/components/ProtectedRoute";
 
-// Public components
+// Admin Management Pages
+import BlogsManagement from "./admin/pages/BlogsManagement";
+import ProgramsManagement from "./admin/pages/ProgramsManagement";
+import EventsManagement from "./admin/pages/EventsManagement";
+import GalleryManagement from "./admin/pages/GalleryManagement";
+import ContactsManagement from "./admin/pages/ContactsManagement";
+import DonationsManagement from "./admin/pages/DonationsManagement";
+import TestimonialsManagement from "./admin/pages/TestimonialsManagement";
+import Settings from "./admin/pages/Settings";
+
+// Public Components
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+
+// Public Pages
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Programs from "./pages/Programs";
@@ -22,10 +34,11 @@ function App() {
     <Router>
       <AdminProvider>
         <Routes>
-          {/* Admin Routes - Public */}
+          {/* ============================================
+              ADMIN ROUTES (Protected)
+          ============================================ */}
           <Route path="/admin/login" element={<AdminLogin />} />
           
-          {/* Admin Routes - Protected */}
           <Route
             path="/admin"
             element={
@@ -36,10 +49,21 @@ function App() {
           >
             <Route index element={<Navigate to="/admin/dashboard" replace />} />
             <Route path="dashboard" element={<AdminDashboard />} />
-            {/* Add more admin routes here */}
+            <Route path="blogs" element={<BlogsManagement />} />
+            <Route path="programs" element={<ProgramsManagement />} />
+            <Route path="events" element={<EventsManagement />} />
+            <Route path="gallery" element={<GalleryManagement />} />
+            <Route path="contacts" element={<ContactsManagement />} />
+            <Route path="donations" element={<DonationsManagement />} />
+            <Route path="testimonials" element={<TestimonialsManagement />} />
+            <Route path="settings" element={<Settings />} />
           </Route>
 
-          {/* Public Routes */}
+          {/* ============================================
+              PUBLIC ROUTES
+          ============================================ */}
+          
+          {/* Home Route */}
           <Route
             path="/"
             element={
@@ -52,6 +76,8 @@ function App() {
               </>
             }
           />
+          
+          {/* About Route */}
           <Route
             path="/about"
             element={
@@ -64,6 +90,8 @@ function App() {
               </>
             }
           />
+          
+          {/* Programs Route */}
           <Route
             path="/programs"
             element={
@@ -76,6 +104,8 @@ function App() {
               </>
             }
           />
+          
+          {/* Blog Route */}
           <Route
             path="/blog"
             element={
@@ -88,6 +118,22 @@ function App() {
               </>
             }
           />
+          
+          {/* Blog Post Detail Route */}
+          <Route
+            path="/blog/:slug"
+            element={
+              <>
+                <Navbar />
+                <main className="flex-grow">
+                  <Blog />
+                </main>
+                <Footer />
+              </>
+            }
+          />
+          
+          {/* Gallery Route */}
           <Route
             path="/gallery"
             element={
@@ -100,6 +146,8 @@ function App() {
               </>
             }
           />
+          
+          {/* Get Involved Route */}
           <Route
             path="/getinvolved"
             element={
@@ -112,6 +160,8 @@ function App() {
               </>
             }
           />
+          
+          {/* Contact Route */}
           <Route
             path="/contact"
             element={
@@ -124,6 +174,8 @@ function App() {
               </>
             }
           />
+          
+          {/* Donate Route */}
           <Route
             path="/donate"
             element={
@@ -136,8 +188,10 @@ function App() {
               </>
             }
           />
-          
-          {/* 404 - Catch all */}
+
+          {/* ============================================
+              404 - Catch all unmatched routes
+          ============================================ */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </AdminProvider>
