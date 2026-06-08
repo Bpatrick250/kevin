@@ -31,26 +31,36 @@ router.get('/me', protect, getMe);
 router.post('/logout', protect, logout);
 router.put('/profile', protect, updateProfile);
 
-// Admin routes
+// Admin login route with debugging
 router.post('/admin-login', async (req, res) => {
   try {
     const { email, password } = req.body;
+    
+    console.log('=========================================');
+    console.log('Admin Login Attempt:');
+    console.log('Email:', email);
+    console.log('Password received:', password ? 'Yes' : 'No');
+    console.log('=========================================');
     
     // Find admin
     const admin = await Admin.findOne({ email }).select('+password');
     
     if (!admin) {
-      return res.status(401).json({ success: false, message: 'Invalid credentials' });
+      console.log('❌ Admin not found with email:', email);
+      return res.status(401).json({ success: false, message: 'Invalid email or password' });
     }
     
-    if (!admin.isActive) {
-      return res.status(401).json({ success: false, message: 'Account is deactivated' });
-    }
+    console.log('✅ Admin found:', admin.name);
+    console.log('Admin role:', admin.role);
+    console.log('Admin active:', admin.isActive);
     
     // Check password
     const isMatch = await admin.comparePassword(password);
+    console.log('Password match:', isMatch);
+    
     if (!isMatch) {
-      return res.status(401).json({ success: false, message: 'Invalid credentials' });
+      console.log('❌ Password mismatch');
+      return res.status(401).json({ success: false, message: 'Invalid email or password' });
     }
     
     // Update last login
@@ -59,6 +69,10 @@ router.post('/admin-login', async (req, res) => {
     
     // Generate token
     const token = generateToken(admin._id, admin.role);
+    
+    console.log('✅ Login successful!');
+    console.log('Token generated:', token ? 'Yes' : 'No');
+    console.log('=========================================');
     
     res.json({
       success: true,
@@ -74,11 +88,10 @@ router.post('/admin-login', async (req, res) => {
       },
     });
   } catch (error) {
-    console.error('Admin login error:', error);
-    res.status(500).json({ success: false, message: error.message });
+    console.error('❌ Admin login error:', error);
+    res.status(500).json({ success: false, message: 'Server error: ' + error.message });
   }
 });
-
 // Get admin profile (protected)
 router.get('/admin-me', adminProtect, async (req, res) => {
   try {

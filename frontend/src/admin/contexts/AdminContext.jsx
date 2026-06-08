@@ -1,5 +1,4 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import Swal from 'sweetalert2';
 
 const AdminContext = createContext();
 

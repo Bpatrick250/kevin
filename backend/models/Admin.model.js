@@ -51,13 +51,19 @@ const adminSchema = new mongoose.Schema({
 // Hash password before saving
 adminSchema.pre('save', async function(next) {
   if (!this.isModified('password')) return next();
-  this.password = await bcrypt.hash(this.password, 12);
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
   next();
 });
 
 // Compare password method
 adminSchema.methods.comparePassword = async function(candidatePassword) {
-  return await bcrypt.compare(candidatePassword, this.password);
+  console.log('Comparing passwords...');
+  console.log('Candidate:', candidatePassword);
+  console.log('Stored hash:', this.password);
+  const result = await bcrypt.compare(candidatePassword, this.password);
+  console.log('Compare result:', result);
+  return result;
 };
 
 module.exports = mongoose.model('Admin', adminSchema);

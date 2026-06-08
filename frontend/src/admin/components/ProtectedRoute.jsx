@@ -6,6 +6,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAdmin();
+  const token = localStorage.getItem('adminToken');
 
   if (loading) {
     return (
@@ -25,7 +26,8 @@ const ProtectedRoute = ({ children }) => {
     );
   }
 
-  if (!isAuthenticated) {
+  // Check both context and localStorage
+  if (!isAuthenticated && !token) {
     return <Navigate to="/admin/login" replace />;
   }
 

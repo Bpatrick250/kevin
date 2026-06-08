@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAdmin } from '../contexts/AdminContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock, faEye, faEyeSlash, faSignInAlt, faShieldAlt } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
@@ -11,7 +10,6 @@ const AdminLogin = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { login } = useAdmin();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -46,19 +44,19 @@ const AdminLogin = () => {
         localStorage.setItem('adminData', JSON.stringify(data.data.admin));
         
         // Show success notification
-        Swal.fire({
+        await Swal.fire({
           icon: 'success',
           title: 'Login Successful!',
           text: `Welcome back, ${data.data.admin.name}!`,
-          timer: 2000,
+          timer: 1500,
           showConfirmButton: false,
-          didOpen: () => {
-            Swal.showLoading();
-          },
-        }).then(() => {
-          // Redirect to dashboard
-          navigate('/admin/dashboard');
         });
+        
+        // Redirect to dashboard
+        console.log('Redirecting to dashboard...');
+        window.location.href = '/admin/dashboard';
+        // OR use navigate
+        // navigate('/admin/dashboard', { replace: true });
       } else {
         Swal.fire({
           icon: 'error',

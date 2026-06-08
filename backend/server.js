@@ -90,6 +90,19 @@ app.get('/health', (req, res) => {
     timestamp: new Date().toISOString()
   });
 });
+// Test endpoint to check admin existence
+app.get('/api/test-admin', async (req, res) => {
+  try {
+    const Admin = require('./models/Admin.model');
+    const admin = await Admin.findOne({ email: 'admin@rlg.org' });
+    res.json({ 
+      exists: !!admin, 
+      admin: admin ? { email: admin.email, name: admin.name } : null 
+    });
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+});
 
 // API Routes - with error handling for each route
 const routeGroups = [
