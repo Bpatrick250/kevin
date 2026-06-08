@@ -19,6 +19,22 @@ const showInfo = (title, text) =>
 const showError = (title, text) =>
   Swal.fire({ icon: "error", title, text, confirmButtonColor: "#166534" });
 
+/* ─── API Service ─────────────────────────────────────────────── */
+const API_URL = 'http://localhost:5000/api';
+
+const api = {
+  submitGetInvolved: async (data) => {
+    const response = await fetch(`${API_URL}/getinvolved`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.message || 'Failed to submit application');
+    return result;
+  }
+};
+
 /* ─── Component ───────────────────────────────────────────────── */
 export default function Getinvolved() {
   const [formData, setFormData] = useState({
@@ -46,8 +62,8 @@ export default function Getinvolved() {
     
     setIsSubmitting(true);
     
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      await api.submitGetInvolved(formData);
       showSuccess(
         "Application Submitted! 🎉",
         `Thank you ${formData.fullName}! An RLG coordinator will contact you within 3-5 days.`
@@ -61,8 +77,11 @@ export default function Getinvolved() {
         district: "",
         message: ""
       });
+    } catch (error) {
+      showError("Submission Failed", error.message || "Failed to submit application. Please try again.");
+    } finally {
       setIsSubmitting(false);
-    }, 1500);
+    }
   };
 
   const opportunities = [
