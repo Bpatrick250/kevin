@@ -1,16 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faBell, faUserCircle, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faBell, faUserCircle, faChevronDown, faSignOutAlt, faUserCog } from '@fortawesome/free-solid-svg-icons';
 
 const AdminHeader = ({ admin, onMenuClick, onLogout, isMobile }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [notifications, setNotifications] = useState([
-    { id: 1, message: 'New contact message received', read: false },
-    { id: 2, message: 'New donation of $50', read: false },
-    { id: 3, message: 'Blog post published', read: true },
+    { id: 1, message: 'New contact message received', read: false, time: '2 min ago' },
+    { id: 2, message: 'New donation of $50', read: false, time: '1 hour ago' },
+    { id: 3, message: 'Blog post published', read: true, time: '3 hours ago' },
+    { id: 4, message: 'New get involved application', read: false, time: '5 hours ago' },
   ]);
 
   const unreadCount = notifications.filter(n => !n.read).length;
+
+  const markAsRead = (id) => {
+    setNotifications(notifications.map(n => 
+      n.id === id ? { ...n, read: true } : n
+    ));
+  };
+
+  const markAllAsRead = () => {
+    setNotifications(notifications.map(n => ({ ...n, read: true })));
+  };
 
   return (
     <header className="admin-header">
@@ -29,9 +40,22 @@ const AdminHeader = ({ admin, onMenuClick, onLogout, isMobile }) => {
             {unreadCount > 0 && <span className="badge">{unreadCount}</span>}
           </button>
           <div className="notification-menu">
+            <div className="notification-header">
+              <span>Notifications</span>
+              {unreadCount > 0 && (
+                <button onClick={markAllAsRead} className="mark-all-read">Mark all as read</button>
+              )}
+            </div>
             {notifications.map(notif => (
-              <div key={notif.id} className={`notification-item ${!notif.read ? 'unread' : ''}`}>
-                <p>{notif.message}</p>
+              <div 
+                key={notif.id} 
+                className={`notification-item ${!notif.read ? 'unread' : ''}`}
+                onClick={() => markAsRead(notif.id)}
+              >
+                <div className="notification-content">
+                  <p>{notif.message}</p>
+                  <small>{notif.time}</small>
+                </div>
               </div>
             ))}
           </div>
@@ -47,7 +71,7 @@ const AdminHeader = ({ admin, onMenuClick, onLogout, isMobile }) => {
           {showDropdown && (
             <div className="dropdown-menu">
               <button onClick={() => window.location.href = '/admin/settings'}>
-                <FontAwesomeIcon icon={faUserCircle} /> Profile Settings
+                <FontAwesomeIcon icon={faUserCog} /> Profile Settings
               </button>
               <button onClick={onLogout}>
                 <FontAwesomeIcon icon={faSignOutAlt} /> Logout
@@ -85,6 +109,12 @@ const AdminHeader = ({ admin, onMenuClick, onLogout, isMobile }) => {
           border-radius: 8px;
           width: 250px;
           outline: none;
+          transition: all 0.3s ease;
+        }
+        
+        .header-search input:focus {
+          border-color: #22c55e;
+          box-shadow: 0 0 0 3px rgba(34,197,94,0.1);
         }
         
         .header-actions {
@@ -104,6 +134,11 @@ const AdminHeader = ({ admin, onMenuClick, onLogout, isMobile }) => {
           font-size: 20px;
           cursor: pointer;
           color: #6b7280;
+          transition: color 0.3s ease;
+        }
+        
+        .notification-btn:hover {
+          color: #22c55e;
         }
         
         .notification-btn .badge {
@@ -121,22 +156,42 @@ const AdminHeader = ({ admin, onMenuClick, onLogout, isMobile }) => {
           position: absolute;
           top: 100%;
           right: 0;
-          width: 280px;
+          width: 320px;
           background: white;
-          border-radius: 8px;
+          border-radius: 12px;
           box-shadow: 0 10px 30px rgba(0,0,0,0.15);
           z-index: 100;
           display: none;
+          animation: fadeIn 0.2s ease;
         }
         
         .notification-dropdown:hover .notification-menu {
           display: block;
         }
         
+        .notification-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 12px 15px;
+          border-bottom: 1px solid #e5e7eb;
+          font-weight: 600;
+          color: #374151;
+        }
+        
+        .mark-all-read {
+          background: none;
+          border: none;
+          color: #22c55e;
+          font-size: 12px;
+          cursor: pointer;
+        }
+        
         .notification-item {
           padding: 12px 15px;
           border-bottom: 1px solid #e5e7eb;
           cursor: pointer;
+          transition: background 0.3s ease;
         }
         
         .notification-item.unread {
@@ -145,6 +200,17 @@ const AdminHeader = ({ admin, onMenuClick, onLogout, isMobile }) => {
         
         .notification-item:hover {
           background: #f3f4f6;
+        }
+        
+        .notification-content p {
+          font-size: 13px;
+          color: #374151;
+          margin-bottom: 4px;
+        }
+        
+        .notification-content small {
+          font-size: 11px;
+          color: #9ca3af;
         }
         
         .user-menu {
@@ -160,6 +226,7 @@ const AdminHeader = ({ admin, onMenuClick, onLogout, isMobile }) => {
           cursor: pointer;
           padding: 5px 10px;
           border-radius: 8px;
+          transition: background 0.3s ease;
         }
         
         .user-btn:hover {
@@ -171,26 +238,34 @@ const AdminHeader = ({ admin, onMenuClick, onLogout, isMobile }) => {
           top: 100%;
           right: 0;
           background: white;
-          border-radius: 8px;
+          border-radius: 12px;
           box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-          min-width: 180px;
+          min-width: 200px;
           z-index: 100;
+          margin-top: 8px;
+          overflow: hidden;
         }
         
         .dropdown-menu button {
           width: 100%;
-          padding: 10px 15px;
+          padding: 12px 15px;
           background: none;
           border: none;
           text-align: left;
           cursor: pointer;
           display: flex;
           align-items: center;
-          gap: 8px;
+          gap: 10px;
+          transition: background 0.3s ease;
         }
         
         .dropdown-menu button:hover {
           background: #f3f4f6;
+        }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(-10px); }
+          to { opacity: 1; transform: translateY(0); }
         }
         
         @media (max-width: 768px) {
@@ -204,6 +279,10 @@ const AdminHeader = ({ admin, onMenuClick, onLogout, isMobile }) => {
           
           .user-btn span {
             display: none;
+          }
+          
+          .admin-header {
+            padding: 12px 15px;
           }
         }
       `}</style>
