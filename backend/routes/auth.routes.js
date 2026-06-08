@@ -18,6 +18,52 @@ const loginValidation = [
   body('password').notEmpty().withMessage('Password is required'),
 ];
 
+// Admin login route
+router.post('/admin-login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const admin = await Admin.findOne({ email }).select('+password');
+    
+    if (!admin || !admin.isActive) {
+      return res.status(401).json({ success: false, message: 'Invalid credentials' });
+    }
+    
+    const isMatch = await admin.comparePassword(password);
+    if (!isMatch) {
+      return res.status(401).json({ success: false, message: 'Invalid credentials' });
+    }
+    
+    admin.lastLogin = new Date();
+    await admin.save();
+    
+    const token = generateToken(admin._id, admin.role);
+    
+    res.json({
+      success: true,
+      data: {
+        token,
+        admin: {
+          _id: admin._id,
+          name: admin.name,
+          email: admin.email,
+          role: admin.role,
+        },
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// Get admin profile
+router.get('/admin-me', adminProtect, async (req, res) => {
+  try {
+    const admin = await Admin.findById(req.admin._id).select('-password');
+    res.json({ success: true, data: admin });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
 // Routes
 router.post('/register', registerValidation, validate, register);
 router.post('/login', authLimiter, loginValidation, validate, login);
