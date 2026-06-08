@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEnvelope, faCheckCircle, faTimesCircle, faSpinner, faPhone, faMapMarkerAlt, faBuilding, faTag } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEnvelope, faCheckCircle, faTimesCircle, faSpinner, faPhone, faMapMarkerAlt, faBuilding, faTag, faUsers, faHandsHelping } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
 
 const GetInvolvedManagement = () => {
@@ -100,7 +100,7 @@ const GetInvolvedManagement = () => {
     switch(interest) {
       case 'Start/Join an RLG Club': return faUsers;
       case 'Become a Mentor': return faEnvelope;
-      case 'Volunteer at Events': return faEye;
+      case 'Volunteer at Events': return faHandsHelping;
       default: return faBuilding;
     }
   };
@@ -197,7 +197,7 @@ const GetInvolvedManagement = () => {
                         <FontAwesomeIcon icon={faCheckCircle} />
                       </button>
                     )}
-                    {submission.status !== 'rejected' && (
+                    {submission.status !== 'rejected' && submission.status !== 'approved' && (
                       <button className="action-btn reject" onClick={() => handleUpdateStatus(submission, 'rejected')}>
                         <FontAwesomeIcon icon={faTimesCircle} />
                       </button>
@@ -205,8 +205,8 @@ const GetInvolvedManagement = () => {
                     <button className="action-btn delete" onClick={() => handleDelete(submission)}>
                       <FontAwesomeIcon icon={faTimesCircle} />
                     </button>
-                   </td>
-                 </tr>
+                  </td>
+                </tr>
               );
             })}
           </tbody>
@@ -250,6 +250,7 @@ const GetInvolvedManagement = () => {
         .action-btn.reject { color: #ef4444; }
         .submission-details { padding: 20px; }
         .submission-details p { margin-bottom: 10px; }
+        .loading { display: flex; justify-content: center; align-items: center; height: 200px; gap: 10px; color: #22c55e; }
         @media (max-width: 768px) { .stats-cards { flex-direction: column; } }
       `}</style>
     </div>

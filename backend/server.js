@@ -22,6 +22,7 @@ const blogRoutes = require('./routes/blog.routes');
 const programRoutes = require('./routes/program.routes');
 const galleryRoutes = require('./routes/gallery.routes');
 const eventRoutes = require('./routes/event.routes');
+const getInvolvedRoutes = require('./routes/getinvolved.routes');
 const contactRoutes = require('./routes/contact.routes');
 const donationRoutes = require('./routes/donation.routes');
 const testimonialRoutes = require('./routes/testimonial.routes');
@@ -68,6 +69,7 @@ app.use((req, res, next) => {
   console.log(`${req.method} ${req.url}`);
   next();
 });
+app.use('/api/getinvolved', getInvolvedRoutes);
 
 // Rate limiting
 const limiter = rateLimit({

@@ -19,7 +19,7 @@ const submissionValidation = [
   body('interest').isIn(['Start/Join an RLG Club', 'Become a Mentor', 'Volunteer at Events', 'Partner My Organization']),
 ];
 
-// Public route - Submit form
+// Public route - Submit form (THIS IS THE IMPORTANT ONE)
 router.post('/', submissionValidation, validate, submitGetInvolved);
 
 // Admin only routes

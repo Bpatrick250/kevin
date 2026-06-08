@@ -5,7 +5,7 @@ import {
   faDashboard, faBlog, faCalendar, faImage, faEnvelope,
   faHeart, faComments, faCog, faSignOutAlt,
   faGraduationCap, faHandHoldingHeart, faBars, faTimes,
-  faChevronLeft, faChevronRight
+  faChevronLeft, faChevronRight, faHandsHelping
 } from '@fortawesome/free-solid-svg-icons';
 import { logo } from '../../assets';
 import { useAdmin } from '../contexts/AdminContext';
@@ -29,10 +29,10 @@ const AdminSidebar = ({ isOpen, onToggle, isMobile, onMobileClose }) => {
     { path: '/admin/programs', icon: faGraduationCap, label: 'Programs' },
     { path: '/admin/events', icon: faCalendar, label: 'Events' },
     { path: '/admin/gallery', icon: faImage, label: 'Gallery' },
-{ path: '/admin/getinvolved', icon: faHandsHelping, label: 'Get Involved' },
     { path: '/admin/contacts', icon: faEnvelope, label: 'Contacts' },
     { path: '/admin/donations', icon: faHandHoldingHeart, label: 'Donations' },
     { path: '/admin/testimonials', icon: faComments, label: 'Testimonials' },
+    { path: '/admin/getinvolved', icon: faHandsHelping, label: 'Get Involved' },
     { path: '/admin/settings', icon: faCog, label: 'Settings' },
   ];
 
@@ -40,7 +40,7 @@ const AdminSidebar = ({ isOpen, onToggle, isMobile, onMobileClose }) => {
     const result = await Swal.fire({
       title: 'Logout?',
       text: 'Are you sure you want to logout?',
-      icon: 'question',
+      icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#ef4444',
       cancelButtonColor: '#22c55e',
