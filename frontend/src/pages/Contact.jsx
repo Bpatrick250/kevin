@@ -21,6 +21,22 @@ const showSuccess = (title, text) =>
 const showError = (title, text) =>
   Swal.fire({ icon: "error", title, text, confirmButtonColor: "#166534" });
 
+/* ─── API Service ─────────────────────────────────────────────── */
+const API_URL = 'http://localhost:5000/api';
+
+const api = {
+  submitContact: async (data) => {
+    const response = await fetch(`${API_URL}/contact`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.message || 'Failed to send message');
+    return result;
+  }
+};
+
 /* ─── Component ───────────────────────────────────────────────── */
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -46,8 +62,8 @@ export default function Contact() {
     
     setIsSubmitting(true);
     
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      await api.submitContact(formData);
       showSuccess(
         "Message Sent! 🎉",
         `Thank you ${formData.name}! We've received your message and will respond within 2-3 business days.`
@@ -59,8 +75,11 @@ export default function Contact() {
         subject: "",
         message: ""
       });
+    } catch (error) {
+      showError("Error", error.message || "Failed to send message. Please try again.");
+    } finally {
       setIsSubmitting(false);
-    }, 1500);
+    }
   };
 
   const contactInfo = [

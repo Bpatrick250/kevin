@@ -1,5 +1,4 @@
-import api from "../services/api";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -23,6 +22,22 @@ const showInfo = (title, text) =>
 const showToast = (message, icon = "success") =>
   Swal.mixin({ toast: true, position: "top-end", showConfirmButton: false, timer: 3000, timerProgressBar: true })
     .fire({ icon, title: message });
+
+/* ─── API Service ─────────────────────────────────────────────── */
+const API_URL = 'http://localhost:5000/api';
+
+const api = {
+  getPrograms: async () => {
+    try {
+      const response = await fetch(`${API_URL}/programs`);
+      const data = await response.json();
+      return data.data || [];
+    } catch (error) {
+      console.error("Error fetching programs:", error);
+      return [];
+    }
+  }
+};
 
 /* ─── Data ────────────────────────────────────────────────────── */
 const programCategories = [
@@ -93,6 +108,20 @@ const programCalendar = [
 /* ─── Component ───────────────────────────────────────────────── */
 export default function Programs() {
   const [hoveredProgram, setHoveredProgram] = useState(null);
+  const [backendPrograms, setBackendPrograms] = useState([]);
+  const [dataLoaded, setDataLoaded] = useState(false);
+
+  // Fetch programs from backend
+  useEffect(() => {
+    const fetchData = async () => {
+      const programsData = await api.getPrograms();
+      if (programsData.length > 0) {
+        setBackendPrograms(programsData);
+      }
+      setDataLoaded(true);
+    };
+    fetchData();
+  }, []);
 
   const handleJoinClick = (programName) => {
     showSuccess("Registration Interest!", `Thank you for your interest in ${programName}. We'll contact you soon!`);
@@ -104,6 +133,15 @@ export default function Programs() {
 
   const handleVolunteerClick = () => {
     showToast("Volunteer applications are open! Visit Get Involved page to apply.", "success");
+  };
+
+  // Merge backend data with static categories (backend data overrides if available)
+  const getProgramDetails = (categoryTitle) => {
+    const backendProgram = backendPrograms.find(p => p.type === categoryTitle);
+    if (backendProgram && backendProgram.subPrograms && backendProgram.subPrograms.length > 0) {
+      return backendProgram;
+    }
+    return null;
   };
 
   return (
@@ -338,51 +376,58 @@ export default function Programs() {
       {/* PROGRAM CATEGORIES */}
       <section className="rlg-programs-categories">
         <div className="rlg-container">
-          {programCategories.map((category, index) => (
-            <div key={category.id} className={`rlg-category-card fade-up-${index % 3}`}>
-              <div className="rlg-category-header">
-                <div className="rlg-category-icon">
-                  <FontAwesomeIcon icon={category.icon} />
+          {programCategories.map((category, index) => {
+            const backendData = getProgramDetails(category.title);
+            const displaySubPrograms = (backendData && backendData.subPrograms && backendData.subPrograms.length > 0) 
+              ? backendData.subPrograms 
+              : category.subPrograms;
+            
+            return (
+              <div key={category.id} className={`rlg-category-card fade-up-${index % 3}`}>
+                <div className="rlg-category-header">
+                  <div className="rlg-category-icon">
+                    <FontAwesomeIcon icon={category.icon} />
+                  </div>
+                  <h2>{category.title}</h2>
+                  <div className="rlg-category-target">
+                    <FontAwesomeIcon icon={faUserGraduate} style={{ marginRight: ".3rem", fontSize: ".7rem" }} />
+                    {category.target}
+                  </div>
                 </div>
-                <h2>{category.title}</h2>
-                <div className="rlg-category-target">
-                  <FontAwesomeIcon icon={faUserGraduate} style={{ marginRight: ".3rem", fontSize: ".7rem" }} />
-                  {category.target}
-                </div>
-              </div>
-              <div className="rlg-category-body">
-                <p style={{ color: "#6b7280", marginBottom: "1rem", lineHeight: "1.7" }}>{category.description}</p>
-                
-                <h4 style={{ fontWeight: 700, color: "#14532d", marginBottom: "1rem", fontSize: "1.1rem" }}>
-                  <FontAwesomeIcon icon={faStar} style={{ color: "#22c55e", marginRight: ".5rem", fontSize: ".9rem" }} />
-                  Sub-Programs
-                </h4>
-                <div className="rlg-subprograms-grid">
-                  {category.subPrograms.map((sub, idx) => (
-                    <div 
-                      key={idx} 
-                      className="rlg-subprogram-card"
-                      onMouseEnter={() => setHoveredProgram(`${category.id}-${idx}`)}
-                      onMouseLeave={() => setHoveredProgram(null)}
-                    >
-                      <div className="rlg-subprogram-icon">
-                        <FontAwesomeIcon icon={sub.icon} />
+                <div className="rlg-category-body">
+                  <p style={{ color: "#6b7280", marginBottom: "1rem", lineHeight: "1.7" }}>{category.description}</p>
+                  
+                  <h4 style={{ fontWeight: 700, color: "#14532d", marginBottom: "1rem", fontSize: "1.1rem" }}>
+                    <FontAwesomeIcon icon={faStar} style={{ color: "#22c55e", marginRight: ".5rem", fontSize: ".9rem" }} />
+                    Sub-Programs
+                  </h4>
+                  <div className="rlg-subprograms-grid">
+                    {displaySubPrograms.map((sub, idx) => (
+                      <div 
+                        key={idx} 
+                        className="rlg-subprogram-card"
+                        onMouseEnter={() => setHoveredProgram(`${category.id}-${idx}`)}
+                        onMouseLeave={() => setHoveredProgram(null)}
+                      >
+                        <div className="rlg-subprogram-icon">
+                          <FontAwesomeIcon icon={sub.icon || faStar} />
+                        </div>
+                        <h3>{sub.name}</h3>
+                        <p>{sub.description}</p>
                       </div>
-                      <h3>{sub.name}</h3>
-                      <p>{sub.description}</p>
-                    </div>
-                  ))}
-                </div>
-                
-                <div className="rlg-how-to-join">
-                  <p><FontAwesomeIcon icon={faCheckCircle} style={{ color: "#22c55e", marginRight: ".5rem" }} />{category.howToJoin}</p>
-                  <button className="rlg-btn-sm" onClick={() => handleJoinClick(category.title)}>
-                    {category.actionText} <FontAwesomeIcon icon={faArrowRight} style={{ marginLeft: ".5rem" }} />
-                  </button>
+                    ))}
+                  </div>
+                  
+                  <div className="rlg-how-to-join">
+                    <p><FontAwesomeIcon icon={faCheckCircle} style={{ color: "#22c55e", marginRight: ".5rem" }} />{category.howToJoin}</p>
+                    <button className="rlg-btn-sm" onClick={() => handleJoinClick(category.title)}>
+                      {category.actionText} <FontAwesomeIcon icon={faArrowRight} style={{ marginLeft: ".5rem" }} />
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 

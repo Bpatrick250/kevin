@@ -19,6 +19,22 @@ const showError = (title, text) =>
 const showInfo = (title, text) =>
   Swal.fire({ icon: "info", title, text, confirmButtonColor: "#166534" });
 
+/* ─── API Service ─────────────────────────────────────────────── */
+const API_URL = 'http://localhost:5000/api';
+
+const api = {
+  submitDonation: async (data) => {
+    const response = await fetch(`${API_URL}/donations`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.message || 'Failed to process donation');
+    return result;
+  }
+};
+
 /* ─── Component ───────────────────────────────────────────────── */
 export default function Donate() {
   const [formData, setFormData] = useState({
@@ -49,6 +65,7 @@ export default function Donate() {
     e.preventDefault();
     
     const donationAmount = formData.amount === "custom" ? formData.customAmount : formData.amount;
+    const amountNumeric = parseFloat(donationAmount?.replace('$', '')) || 0;
     
     if (!formData.fullName || !formData.email) {
       showError("Missing Information", "Please fill in your name and email address.");
@@ -72,11 +89,21 @@ export default function Donate() {
     
     setIsSubmitting(true);
     
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      await api.submitDonation({
+        fullName: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        amount: amountNumeric,
+        currency: donationAmount.includes('RWF') ? 'RWF' : 'USD',
+        paymentMethod: formData.paymentMethod,
+        mobileMoneyNumber: formData.mobileMoneyNumber,
+        isMonthly: formData.isMonthly
+      });
+      
       showSuccess(
         "Thank You for Your Donation! 🎉",
-        `Thank you ${formData.fullName}! Your ${formData.isMonthly ? "monthly " : ""}donation of ${donationAmount} ${donationAmount.includes("RWF") ? "RWF" : "USD"} will help empower young leaders across Rwanda.`
+        `Thank you ${formData.fullName}! Your ${formData.isMonthly ? "monthly " : ""}donation will help empower young leaders across Rwanda.`
       );
       setFormData({
         fullName: "",
@@ -88,8 +115,11 @@ export default function Donate() {
         mobileMoneyNumber: "",
         isMonthly: false
       });
+    } catch (error) {
+      showError("Error", error.message || "Failed to process donation. Please try again.");
+    } finally {
       setIsSubmitting(false);
-    }, 1500);
+    }
   };
 
   const donationTiers = [
