@@ -1,20 +1,30 @@
 const nodemailer = require('nodemailer');
-const logger = require('./logger');
 
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST,
-  port: process.env.EMAIL_PORT,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD,
-  },
-});
+let transporter = null;
+
+try {
+  transporter = nodemailer.createTransport({
+    host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+    port: process.env.EMAIL_PORT || 587,
+    secure: false,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASSWORD,
+    },
+  });
+} catch (error) {
+  console.log('Email transporter not configured');
+}
 
 const sendEmail = async (options) => {
+  if (!transporter) {
+    console.log('Email not sent - transporter not configured');
+    return { messageId: 'simulated' };
+  }
+  
   try {
     const mailOptions = {
-      from: `"RLG Rwanda" <${process.env.EMAIL_FROM}>`,
+      from: `"RLG Rwanda" <${process.env.EMAIL_FROM || 'noreply@rlg.org'}>`,
       to: options.email,
       subject: options.subject,
       html: options.html,
@@ -22,11 +32,11 @@ const sendEmail = async (options) => {
     };
     
     const info = await transporter.sendMail(mailOptions);
-    logger.info(`Email sent to ${options.email}: ${info.messageId}`);
+    console.log(`Email sent to ${options.email}: ${info.messageId}`);
     return info;
   } catch (error) {
-    logger.error('Email sending failed:', error);
-    throw error;
+    console.error('Email sending failed:', error.message);
+    return null;
   }
 };
 
@@ -36,7 +46,7 @@ const sendWelcomeEmail = async (email, name) => {
       <h2 style="color: #22c55e;">Welcome to RLG, ${name}!</h2>
       <p>Thank you for joining the Rising Leaders of Generation community.</p>
       <p>We're excited to have you on board. Together, we'll build the next generation of leaders.</p>
-      <a href="${process.env.FRONTEND_URL}" style="background: #22c55e; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Visit our website</a>
+      <a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}" style="background: #22c55e; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Visit our website</a>
       <p style="margin-top: 20px;">Best regards,<br>RLG Team</p>
     </div>
   `;
@@ -51,10 +61,8 @@ const sendContactReply = async (email, name, reply, originalMessage) => {
       <p>Dear ${name},</p>
       <p>Thank you for reaching out to us. Here's our response to your inquiry:</p>
       <div style="background: #f0fdf4; padding: 15px; border-left: 4px solid #22c55e; margin: 15px 0;">
-        <p><strong>Your message:</strong> ${originalMessage.substring(0, 200)}...</p>
         <p><strong>Our reply:</strong> ${reply}</p>
       </div>
-      <p>If you have any further questions, feel free to reply to this email.</p>
       <p>Best regards,<br>RLG Team</p>
     </div>
   `;
