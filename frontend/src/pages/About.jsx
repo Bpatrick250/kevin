@@ -21,6 +21,31 @@ const showSuccess = (title, text) =>
 const showInfo = (title, text) =>
   Swal.fire({ icon: "info", title, text, confirmButtonColor: "#166534" });
 
+/* ─── API Service ─────────────────────────────────────────────── */
+const API_URL = 'http://localhost:5000/api';
+
+const api = {
+  getStats: async () => {
+    try {
+      const response = await fetch(`${API_URL}/dashboard/stats`);
+      const data = await response.json();
+      return data.data || {};
+    } catch (error) {
+      console.error("Error fetching stats:", error);
+      return {};
+    }
+  },
+  getTestimonials: async () => {
+    try {
+      const response = await fetch(`${API_URL}/testimonials`);
+      const data = await response.json();
+      return data.data || [];
+    } catch (error) {
+      return [];
+    }
+  }
+};
+
 /* ─── Data ────────────────────────────────────────────────────── */
 const coreValues = [
   { name: "Discipline", icon: faCompass, description: "Self-control and dedication to excellence" },
@@ -64,6 +89,20 @@ const goals = [
 /* ─── Component ───────────────────────────────────────────────── */
 export default function About() {
   const [activePhase, setActivePhase] = useState(0);
+  const [backendStats, setBackendStats] = useState({});
+  const [dataLoaded, setDataLoaded] = useState(false);
+
+  // Fetch stats from backend
+  useEffect(() => {
+    const fetchData = async () => {
+      const statsData = await api.getStats();
+      if (statsData) {
+        setBackendStats(statsData);
+      }
+      setDataLoaded(true);
+    };
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -75,6 +114,9 @@ export default function About() {
   const handlePartnerClick = () => {
     showInfo("Partner With Us", "Join us in empowering young leaders across Rwanda!");
   };
+
+  // Use backend stats if available
+  const statsData = backendStats;
 
   return (
     <div className="rlg-about-page pt-16">

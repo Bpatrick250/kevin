@@ -55,7 +55,7 @@ const Navbar = () => {
           <Link to="/" className="rlg-logo" onClick={() => setIsOpen(false)}>
             <img src={logo} alt="RLG Logo" className="rlg-logo-img" />
             <div className="rlg-logo-text">
-              <span className="rlg-logo-title">Rising Leaders</span>
+              <span className="rlg-logo-title">Raising Leaders</span>
               <span className="rlg-logo-sub">of Generation</span>
             </div>
           </Link>

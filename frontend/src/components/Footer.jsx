@@ -95,7 +95,7 @@ const Footer = () => {
               <Link to="/" className="footer-logo">
                 <img src={logo} alt="RLG Logo" />
                 <div className="footer-logo-text">
-                  <span>Rising Leaders</span>
+                  <span>Raising Leaders</span>
                   <span>of Generation</span>
                 </div>
               </Link>
