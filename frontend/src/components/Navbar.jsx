@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faTimes, faHelp } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { logo } from "../assets";
 
 const Navbar = () => {
@@ -79,7 +79,7 @@ const Navbar = () => {
           <div className="rlg-nav-buttons">
             <Link to="/donate">
               <button className="rlg-donate-btn">
-                <FontAwesomeIcon icon={faHelp} /> Donate Now
+                <FontAwesomeIcon icon={faHeart} /> Donate Now
               </button>
             </Link>
           </div>
