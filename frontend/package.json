@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^7.2.0",
+    "@fortawesome/free-brands-svg-icons": "^7.2.0",
+    "@fortawesome/free-solid-svg-icons": "^7.2.0",
     "aos": "^2.3.4",
     "axios": "^1.17.0",
     "framer-motion": "^10.16.0",
@@ -26,6 +29,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^6.0.2",
     "autoprefixer": "^10.4.15",
     "postcss": "^8.4.29",
     "react-scripts": "5.0.1",
