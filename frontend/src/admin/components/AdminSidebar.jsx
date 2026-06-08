@@ -29,6 +29,7 @@ const AdminSidebar = ({ isOpen, onToggle, isMobile, onMobileClose }) => {
     { path: '/admin/programs', icon: faGraduationCap, label: 'Programs' },
     { path: '/admin/events', icon: faCalendar, label: 'Events' },
     { path: '/admin/gallery', icon: faImage, label: 'Gallery' },
+{ path: '/admin/getinvolved', icon: faHandsHelping, label: 'Get Involved' },
     { path: '/admin/contacts', icon: faEnvelope, label: 'Contacts' },
     { path: '/admin/donations', icon: faHandHoldingHeart, label: 'Donations' },
     { path: '/admin/testimonials', icon: faComments, label: 'Testimonials' },
