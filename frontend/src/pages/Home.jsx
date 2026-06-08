@@ -1,3 +1,4 @@
+import api from "../services/api";
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -61,6 +62,10 @@ const blogPosts = [
     link: "/blog/light-the-flame-2025"
   }
 ];
+const [testimonialsData, setTestimonialsData] = useState([]);
+const [programsData, setProgramsData] = useState([]);
+const [eventsData, setEventsData] = useState([]);
+const [loading, setLoading] = useState(true);
 
 /* ─── useCountUp hook ─────────────────────────────────────────── */
 function useCountUp(target, duration = 2800) {
@@ -112,6 +117,40 @@ export default function Home() {
   const handleDonate = () => {
     showInfo("Support RLG", "Your donation helps us empower more young leaders across Rwanda.");
   };
+  useEffect(() => {
+  fetchHomeData();
+}, []);
+
+const fetchHomeData = async () => {
+  try {
+    const [testimonialsRes, programsRes, eventsRes] = await Promise.all([
+      api.getTestimonials(),
+      api.getPrograms(),
+      api.getUpcomingEvents()
+    ]);
+    setTestimonialsData(testimonialsRes.data || []);
+    setProgramsData(programsRes.data || []);
+    setEventsData(eventsRes.data || []);
+  } catch (error) {
+    console.error("Failed to fetch home data:", error);
+  } finally {
+    setLoading(false);
+  }
+};
+
+// Update the handleNewsletter function
+const handleNewsletter = async (e) => {
+  e.preventDefault();
+  if (!email) return showToast("Please enter your email address.", "warning");
+  
+  try {
+    await api.subscribeNewsletter(email);
+    showSuccess("Subscribed! 🎉", "Thank you for joining our newsletter!");
+    setEmail("");
+  } catch (error) {
+    showToast(error.message, "error");
+  }
+};
 
   return (
     <div className="rlg-home pt-16">

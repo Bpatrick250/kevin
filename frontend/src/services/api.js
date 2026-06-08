@@ -28,46 +28,33 @@ class ApiService {
     }
   }
 
-  // Dashboard Stats
-  async getDashboardStats() {
-    return this.request('/dashboard/stats');
+  // Home/General
+  async getTestimonials() {
+    return this.request('/testimonials');
   }
 
-  // Blogs
-  async getBlogs() {
-    return this.request('/blogs');
-  }
-
-  async getBlogBySlug(slug) {
-    return this.request(`/blogs/slug/${slug}`);
-  }
-
-  // Programs
   async getPrograms() {
     return this.request('/programs');
-  }
-
-  async getProgramBySlug(slug) {
-    return this.request(`/programs/slug/${slug}`);
-  }
-
-  // Gallery
-  async getGallery() {
-    return this.request('/gallery');
-  }
-
-  // Events
-  async getEvents() {
-    return this.request('/events');
   }
 
   async getUpcomingEvents() {
     return this.request('/events/upcoming');
   }
 
-  // Testimonials
-  async getTestimonials() {
-    return this.request('/testimonials');
+  async getStats() {
+    return this.request('/dashboard/stats');
+  }
+
+  async getGallery() {
+    return this.request('/gallery');
+  }
+
+  async getBlogs() {
+    return this.request('/blogs');
+  }
+
+  async getBlogBySlug(slug) {
+    return this.request(`/blogs/slug/${slug}`);
   }
 
   // Contact
