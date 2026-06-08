@@ -1,5 +1,4 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { adminAuth } from '../services/adminApi';
 import Swal from 'sweetalert2';
 
 const AdminContext = createContext();
@@ -21,8 +20,20 @@ export const AdminProvider = ({ children }) => {
 
   const loadAdmin = async () => {
     try {
-      const response = await adminAuth.getMe();
-      setAdmin(response.data.data);
+      const response = await fetch('http://localhost:5000/api/auth/admin-me', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        setAdmin(data.data);
+      } else {
+        localStorage.removeItem('adminToken');
+        setToken(null);
+      }
     } catch (error) {
       console.error('Failed to load admin:', error);
       localStorage.removeItem('adminToken');
@@ -34,65 +45,34 @@ export const AdminProvider = ({ children }) => {
 
   const login = async (credentials) => {
     try {
-      const response = await adminAuth.login(credentials);
-      const { token, admin: adminData } = response.data.data;
-      localStorage.setItem('adminToken', token);
-      setToken(token);
-      setAdmin(adminData);
-      Swal.fire({
-        icon: 'success',
-        title: 'Welcome Back!',
-        text: `Hello ${adminData.name}, you have successfully logged in.`,
-        timer: 2000,
-        showConfirmButton: false,
+      const response = await fetch('http://localhost:5000/api/auth/admin-login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(credentials),
       });
-      return { success: true };
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        const { token, admin: adminData } = data.data;
+        localStorage.setItem('adminToken', token);
+        setToken(token);
+        setAdmin(adminData);
+        return { success: true };
+      } else {
+        return { success: false, error: data.message };
+      }
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Login Failed',
-        text: error.response?.data?.message || 'Invalid credentials',
-      });
-      return { success: false, error: error.response?.data?.message };
+      return { success: false, error: error.message };
     }
   };
 
-  const logout = async () => {
-    try {
-      await adminAuth.logout();
-    } catch (error) {
-      console.error('Logout error:', error);
-    } finally {
-      localStorage.removeItem('adminToken');
-      setToken(null);
-      setAdmin(null);
-      Swal.fire({
-        icon: 'success',
-        title: 'Logged Out',
-        text: 'You have been successfully logged out.',
-        timer: 1500,
-        showConfirmButton: false,
-      });
-    }
-  };
-
-  const changePassword = async (data) => {
-    try {
-      await adminAuth.changePassword(data);
-      Swal.fire({
-        icon: 'success',
-        title: 'Password Changed',
-        text: 'Your password has been updated successfully.',
-      });
-      return { success: true };
-    } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Failed',
-        text: error.response?.data?.message || 'Failed to change password',
-      });
-      return { success: false };
-    }
+  const logout = () => {
+    localStorage.removeItem('adminToken');
+    setToken(null);
+    setAdmin(null);
   };
 
   return (
@@ -102,7 +82,6 @@ export const AdminProvider = ({ children }) => {
         loading,
         login,
         logout,
-        changePassword,
         isAuthenticated: !!token,
       }}
     >

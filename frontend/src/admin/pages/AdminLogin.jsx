@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAdmin } from '../contexts/AdminContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock, faEye, faEyeSlash, faSignInAlt, faShieldAlt } from '@fortawesome/free-solid-svg-icons';
+import Swal from 'sweetalert2';
 import { logo } from '../../assets';
 
 const AdminLogin = () => {
@@ -15,11 +16,67 @@ const AdminLogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!email || !password) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Missing Information',
+        text: 'Please enter both email and password.',
+        confirmButtonColor: '#22c55e',
+      });
+      return;
+    }
+    
     setLoading(true);
-    const result = await login({ email, password });
-    setLoading(false);
-    if (result.success) {
-      navigate('/admin/dashboard');
+    
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/admin-login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        // Store token and admin data
+        localStorage.setItem('adminToken', data.data.token);
+        localStorage.setItem('adminData', JSON.stringify(data.data.admin));
+        
+        // Show success notification
+        Swal.fire({
+          icon: 'success',
+          title: 'Login Successful!',
+          text: `Welcome back, ${data.data.admin.name}!`,
+          timer: 2000,
+          showConfirmButton: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        }).then(() => {
+          // Redirect to dashboard
+          navigate('/admin/dashboard');
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Login Failed',
+          text: data.message || 'Invalid email or password',
+          confirmButtonColor: '#22c55e',
+        });
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Connection Error',
+        text: 'Unable to connect to the server. Please check if the backend is running.',
+        confirmButtonColor: '#22c55e',
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -45,6 +102,7 @@ const AdminLogin = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="admin@rlg.org"
                 required
+                autoComplete="off"
               />
             </div>
             
@@ -73,7 +131,9 @@ const AdminLogin = () => {
             
             <button type="submit" className="admin-login-btn" disabled={loading}>
               {loading ? (
-                <span className="spinner"></span>
+                <>
+                  <span className="spinner"></span> Logging in...
+                </>
               ) : (
                 <>
                   <FontAwesomeIcon icon={faSignInAlt} /> Login to Dashboard
@@ -222,7 +282,7 @@ const AdminLogin = () => {
           gap: 10px;
         }
         
-        .admin-login-btn:hover {
+        .admin-login-btn:hover:not(:disabled) {
           transform: translateY(-2px);
           box-shadow: 0 8px 25px rgba(34,197,94,0.3);
         }
