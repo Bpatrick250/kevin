@@ -10,6 +10,7 @@ import BlogsManagement from "./admin/pages/BlogsManagement";
 import ProgramsManagement from "./admin/pages/ProgramsManagement";
 import EventsManagement from "./admin/pages/EventsManagement";
 import GalleryManagement from "./admin/pages/GalleryManagement";
+import GetInvolvedManagement from "./admin/pages/GetInvolvedManagement";
 import ContactsManagement from "./admin/pages/ContactsManagement";
 import DonationsManagement from "./admin/pages/DonationsManagement";
 import TestimonialsManagement from "./admin/pages/TestimonialsManagement";
@@ -53,6 +54,7 @@ function App() {
             <Route path="programs" element={<ProgramsManagement />} />
             <Route path="events" element={<EventsManagement />} />
             <Route path="gallery" element={<GalleryManagement />} />
+            <Route path="getinvolved" element={<GetInvolvedManagement />} />
             <Route path="contacts" element={<ContactsManagement />} />
             <Route path="donations" element={<DonationsManagement />} />
             <Route path="testimonials" element={<TestimonialsManagement />} />
