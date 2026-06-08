@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -8,7 +8,7 @@ import {
   faChevronLeft, faChevronRight, faTimes, faSpinner,
   faShare, faDownload, faHeart, faEye, faTag, faClock,
   faMapMarkerAlt, faUser, faThumbsUp, faComment,
-  faEnvelope
+  faEnvelope, faEmptySet
 } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 import { heroBg } from "../assets";
@@ -18,79 +18,108 @@ const showInfo = (title, text) =>
   Swal.fire({ icon: "info", title, text, confirmButtonColor: "#166534" });
 const showSuccess = (title, text) =>
   Swal.fire({ icon: "success", title, text, confirmButtonColor: "#166534", timer: 3500, timerProgressBar: true });
+const showError = (title, text) =>
+  Swal.fire({ icon: "error", title, text, confirmButtonColor: "#166534" });
 
-/* ─── Gallery Data (will be replaced by backend) ───────────────── */
-const galleryCategories = [
-  { id: 1, name: "All", icon: faImage },
-  { id: 2, name: "School Leadership Bootcamps", icon: faUsers },
-  { id: 3, name: "Light the Flame Debates", icon: faMicrophone },
-  { id: 4, name: "RLG Green Life", icon: faLeaf },
-  { id: 5, name: "Leadership Forums", icon: faComments },
-  { id: 6, name: "Oasis of Wealth Awards", icon: faAward }
-];
+/* ─── API Service ─────────────────────────────────────────────── */
+const API_URL = 'http://localhost:5000/api';
 
-const sampleImages = [
-  // School Leadership Bootcamps
-  { id: 1, title: "RLG leadership training session", category: "School Leadership Bootcamps", date: "March 2025", location: "Kigali, Rwanda", photographer: "RLG Media Team", likes: 45, icon: faUsers },
-  { id: 2, title: "Student leaders receiving certificates", category: "School Leadership Bootcamps", date: "March 2025", location: "Kigali, Rwanda", photographer: "RLG Media Team", likes: 38, icon: faAward },
-  { id: 3, title: "Youth discussing community action plans", category: "School Leadership Bootcamps", date: "February 2025", location: "Kigali, Rwanda", photographer: "RLG Media Team", likes: 52, icon: faComments },
-  // Light the Flame Debates
-  { id: 4, title: "Student presenting arguments during finals", category: "Light the Flame Debates", date: "April 2025", location: "Kigali, Rwanda", photographer: "RLG Media Team", likes: 67, icon: faMicrophone },
-  { id: 5, title: "Judges scoring the interschool challenge", category: "Light the Flame Debates", date: "April 2025", location: "Kigali, Rwanda", photographer: "RLG Media Team", likes: 42, icon: faTrophy },
-  { id: 6, title: "Light the Flame champions for 2025", category: "Light the Flame Debates", date: "April 2025", location: "Kigali, Rwanda", photographer: "RLG Media Team", likes: 89, icon: faTrophy },
-  // RLG Green Life
-  { id: 7, title: "RLG Green Life tree planting campaign", category: "RLG Green Life", date: "March 2025", location: "Kigali, Rwanda", photographer: "RLG Media Team", likes: 56, icon: faTree },
-  { id: 8, title: "Students learning about sustainability", category: "RLG Green Life", date: "March 2025", location: "Kigali, Rwanda", photographer: "RLG Media Team", likes: 34, icon: faLightbulb },
-  { id: 9, title: "Community cleanup led by RLG Impact", category: "RLG Green Life", date: "February 2025", location: "Kigali, Rwanda", photographer: "RLG Media Team", likes: 48, icon: faLeaf },
-  // Leadership Forums
-  { id: 10, title: "Keynote address at My Role Governance Forum", category: "Leadership Forums", date: "June 2025", location: "Kigali, Rwanda", photographer: "RLG Media Team", likes: 73, icon: faComments },
-  { id: 11, title: "Young leaders discussing economic prosperity", category: "Leadership Forums", date: "June 2025", location: "Kigali, Rwanda", photographer: "RLG Media Team", likes: 61, icon: faUsers },
-  { id: 12, title: "All participants at the annual youth leadership summit", category: "Leadership Forums", date: "November 2025", location: "Kigali, Rwanda", photographer: "RLG Media Team", likes: 94, icon: faUsers },
-  // Oasis of Wealth Awards
-  { id: 13, title: "Student pitching business idea", category: "Oasis of Wealth Awards", date: "September 2025", location: "Kigali, Rwanda", photographer: "RLG Media Team", likes: 55, icon: faAward },
-  { id: 14, title: "Winners receiving entrepreneurship awards", category: "Oasis of Wealth Awards", date: "September 2025", location: "Kigali, Rwanda", photographer: "RLG Media Team", likes: 78, icon: faTrophy },
-  { id: 15, title: "All award recipients with RLG team", category: "Oasis of Wealth Awards", date: "September 2025", location: "Kigali, Rwanda", photographer: "RLG Media Team", likes: 62, icon: faUsers }
-];
-
-const videoGallery = [
-  { id: 1, title: "RLG 2025 Highlights", duration: "2:30", category: "Highlights", icon: faVideo },
-  { id: 2, title: "Light the Flame – Best Debate Moment", duration: "4:15", category: "Debate", icon: faVideo },
-  { id: 3, title: "RLG Green Life Documentary Short", duration: "5:45", category: "Environment", icon: faVideo }
-];
+const api = {
+  getGallery: async () => {
+    try {
+      const response = await fetch(`${API_URL}/gallery`);
+      const data = await response.json();
+      return data.data || [];
+    } catch (error) {
+      console.error("Error fetching gallery:", error);
+      return [];
+    }
+  },
+  getVideoGallery: async () => {
+    try {
+      const response = await fetch(`${API_URL}/gallery/videos`);
+      const data = await response.json();
+      return data.data || [];
+    } catch (error) {
+      console.error("Error fetching videos:", error);
+      return [];
+    }
+  }
+};
 
 /* ─── Component ───────────────────────────────────────────────── */
 export default function Gallery() {
   const [activeCategory, setActiveCategory] = useState("All");
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [currentVideo, setCurrentVideo] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [images, setImages] = useState([]);
+  const [videos, setVideos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState(["All"]);
+
+  useEffect(() => {
+    fetchGalleryData();
+  }, []);
+
+  const fetchGalleryData = async () => {
+    setLoading(true);
+    try {
+      const [galleryData, videoData] = await Promise.all([
+        api.getGallery(),
+        api.getVideoGallery()
+      ]);
+      
+      setImages(galleryData);
+      setVideos(videoData);
+      
+      // Extract unique categories from images
+      const uniqueCategories = ["All", ...new Set(galleryData.map(img => img.category).filter(Boolean))];
+      setCategories(uniqueCategories);
+    } catch (error) {
+      console.error("Failed to fetch gallery:", error);
+      showError("Error", "Failed to load gallery. Please refresh the page.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Filter images based on selected category
   const filteredImages = activeCategory === "All" 
-    ? sampleImages 
-    : sampleImages.filter(img => img.category === activeCategory);
+    ? images 
+    : images.filter(img => img.category === activeCategory);
 
   const handleImageClick = (image) => {
-    showInfo("Coming Soon", `"${image.title}" will be available once the admin uploads images from the backend. Stay tuned!`);
+    // In a real implementation, this would open a lightbox with the actual image
+    showInfo(image.title, "Click to view full image");
   };
 
   const handleVideoClick = (video) => {
-    showInfo("Video Coming Soon", `"${video.title}" will be available once the admin uploads videos from the backend. Stay tuned!`);
+    showInfo(video.title, "Video will play once admin uploads the actual file.");
   };
 
   const handleSharePhoto = () => {
     showSuccess("Share Your Photo", "Thank you for sharing! Our team will review and add your photo to the gallery.");
   };
 
-  const handleLike = () => {
-    showSuccess("Liked! 👍", "Thank you for appreciating our gallery!");
-  };
+  // Empty state component when no images
+  const EmptyGallery = () => (
+    <div className="rlg-empty-gallery">
+      <FontAwesomeIcon icon={faImage} size="4x" style={{ color: "#9ca3af", marginBottom: "1rem" }} />
+      <h3 style={{ color: "#14532d", marginBottom: "0.5rem" }}>No Photos Yet</h3>
+      <p style={{ color: "#6b7280", marginBottom: "1rem" }}>Gallery images will appear here once uploaded by the admin.</p>
+      <button className="btn-primary-rlg" onClick={handleSharePhoto}>
+        <FontAwesomeIcon icon={faCamera} /> Share Your Photos
+      </button>
+    </div>
+  );
 
-  const closeModal = () => {
-    setSelectedImage(null);
-    setCurrentVideo(null);
-    setIsPlaying(false);
-  };
+  if (loading) {
+    return (
+      <div className="rlg-gallery-page pt-16">
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
+          <FontAwesomeIcon icon={faSpinner} spin size="3x" color="#22c55e" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="rlg-gallery-page pt-16">
@@ -260,6 +289,15 @@ export default function Gallery() {
         }
         .rlg-gallery-meta span { display: flex; align-items: center; gap: 0.2rem; }
 
+        /* Empty Gallery State */
+        .rlg-empty-gallery {
+          text-align: center;
+          padding: 4rem 2rem;
+          background: var(--green-50);
+          border-radius: var(--radius);
+          margin: 2rem 0;
+        }
+
         /* Video Gallery */
         .rlg-video-section { margin: 3rem 0; }
         .rlg-video-grid {
@@ -364,72 +402,80 @@ export default function Gallery() {
           <h2 className="rlg-section-title">Leadership in Action</h2>
         </div>
 
-        {/* Category Filters */}
-        <div className="rlg-categories fade-up-2">
-          {galleryCategories.map((cat) => (
-            <button
-              key={cat.id}
-              className={`rlg-cat-btn ${activeCategory === cat.name ? "active" : ""}`}
-              onClick={() => setActiveCategory(cat.name)}
-            >
-              <FontAwesomeIcon icon={cat.icon} />
-              {cat.name}
-            </button>
-          ))}
-        </div>
-
-        {/* Image Gallery Grid */}
-        <div className="rlg-gallery-grid">
-          {filteredImages.map((image, index) => (
-            <div 
-              key={image.id} 
-              className="rlg-gallery-item fade-up-3"
-              style={{ animationDelay: `${index * 0.05}s` }}
-              onClick={() => handleImageClick(image)}
-            >
-              <div className="rlg-gallery-preview">
-                <FontAwesomeIcon icon={image.icon} />
-                <div className="rlg-overlay">
-                  <FontAwesomeIcon icon={faEye} />
-                </div>
-              </div>
-              <div className="rlg-gallery-info">
-                <h3>{image.title}</h3>
-                <div className="rlg-gallery-meta">
-                  <span><FontAwesomeIcon icon={faCalendarAlt} /> {image.date}</span>
-                  <span><FontAwesomeIcon icon={faHeart} /> {image.likes}</span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Video Gallery Section */}
-        <div className="rlg-video-section fade-up-1">
-          <div className="rlg-label"><FontAwesomeIcon icon={faVideo} /> Video Gallery</div>
-          <h2 className="rlg-section-title">Watch Leadership in Motion</h2>
-          
-          <div className="rlg-video-grid">
-            {videoGallery.map((video, index) => (
-              <div 
-                key={video.id} 
-                className="rlg-video-card"
-                style={{ animationDelay: `${index * 0.1}s` }}
-                onClick={() => handleVideoClick(video)}
+        {/* Category Filters - Only show if there are images */}
+        {categories.length > 1 && (
+          <div className="rlg-categories fade-up-2">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                className={`rlg-cat-btn ${activeCategory === cat ? "active" : ""}`}
+                onClick={() => setActiveCategory(cat)}
               >
-                <div className="rlg-video-preview">
-                  <div className="rlg-play-btn">
-                    <FontAwesomeIcon icon={faPlayCircle} />
+                <FontAwesomeIcon icon={faImage} />
+                {cat}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Image Gallery Grid or Empty State */}
+        {filteredImages.length > 0 ? (
+          <div className="rlg-gallery-grid">
+            {filteredImages.map((image, index) => (
+              <div 
+                key={image._id || index} 
+                className="rlg-gallery-item fade-up-3"
+                style={{ animationDelay: `${index * 0.05}s` }}
+                onClick={() => handleImageClick(image)}
+              >
+                <div className="rlg-gallery-preview">
+                  <FontAwesomeIcon icon={faImage} />
+                  <div className="rlg-overlay">
+                    <FontAwesomeIcon icon={faEye} />
                   </div>
                 </div>
-                <div className="rlg-video-info">
-                  <h3>{video.title}</h3>
-                  <p><FontAwesomeIcon icon={faClock} /> {video.duration} • {video.category}</p>
+                <div className="rlg-gallery-info">
+                  <h3>{image.title}</h3>
+                  <div className="rlg-gallery-meta">
+                    <span><FontAwesomeIcon icon={faCalendarAlt} /> {new Date(image.createdAt).toLocaleDateString()}</span>
+                    <span><FontAwesomeIcon icon={faHeart} /> {image.likes || 0}</span>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
-        </div>
+        ) : (
+          <EmptyGallery />
+        )}
+
+        {/* Video Gallery Section - Only show if there are videos */}
+        {videos.length > 0 && (
+          <div className="rlg-video-section fade-up-1">
+            <div className="rlg-label"><FontAwesomeIcon icon={faVideo} /> Video Gallery</div>
+            <h2 className="rlg-section-title">Watch Leadership in Motion</h2>
+            
+            <div className="rlg-video-grid">
+              {videos.map((video, index) => (
+                <div 
+                  key={video._id || index} 
+                  className="rlg-video-card"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                  onClick={() => handleVideoClick(video)}
+                >
+                  <div className="rlg-video-preview">
+                    <div className="rlg-play-btn">
+                      <FontAwesomeIcon icon={faPlayCircle} />
+                    </div>
+                  </div>
+                  <div className="rlg-video-info">
+                    <h3>{video.title}</h3>
+                    <p><FontAwesomeIcon icon={faClock} /> {video.duration || 'Coming soon'}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Share Your Photos Section */}
         <div className="rlg-share-section fade-up-2">
@@ -443,14 +489,6 @@ export default function Gallery() {
               <FontAwesomeIcon icon={faEnvelope} /> Contact Media Team
             </button>
           </Link>
-        </div>
-
-        {/* Note Section */}
-        <div className="rlg-coming-soon" style={{ background: "#f0fdf4", borderLeftColor: "#22c55e", marginBottom: "3rem" }}>
-          <p>
-            <FontAwesomeIcon icon={faImage} style={{ marginRight: ".5rem" }} />
-            <strong>Note:</strong> Photos are representative. Actual images will be added after each event.
-          </p>
         </div>
       </div>
     </div>
