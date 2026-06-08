@@ -13,7 +13,6 @@ require('dotenv').config();
 // Import configs
 const { connectDB } = require('./config/database.config');
 const { errorMiddleware } = require('./middleware/error.middleware');
-const logger = require('./utils/logger');
 
 // Import routes
 const authRoutes = require('./routes/auth.routes');
@@ -34,25 +33,44 @@ const app = express();
 // Connect to Database
 connectDB();
 
-// Middleware
-app.use(helmet({
-  crossOriginResourcePolicy: { policy: "cross-origin" }
-}));
-app.use(compression());
+// Basic middleware
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+app.use(cookieParser());
+
+// CORS middleware
 app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:5173',
   credentials: true,
   optionsSuccessStatus: 200
 }));
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ extended: true, limit: '50mb' }));
-app.use(cookieParser());
-app.use(morgan('combined', { stream: { write: message => logger.info(message.trim()) } }));
+
+// Security middleware (with error handling)
+try {
+  app.use(helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" }
+  }));
+} catch (err) {
+  console.log('Helmet middleware error:', err.message);
+}
+
+// Compression middleware
+try {
+  app.use(compression());
+} catch (err) {
+  console.log('Compression middleware error:', err.message);
+}
+
+// Logging middleware (simplified)
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
 
 // Rate limiting
 const limiter = rateLimit({
-  windowMs: process.env.RATE_LIMIT_WINDOW_MS || 15 * 60 * 1000,
-  max: process.env.RATE_LIMIT_MAX || 100,
+  windowMs: 15 * 60 * 1000,
+  max: 100,
   message: 'Too many requests from this IP, please try again later.',
   standardHeaders: true,
   legacyHeaders: false,
@@ -62,28 +80,39 @@ app.use('/api/', limiter);
 // Static files for uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// API Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/blogs', blogRoutes);
-app.use('/api/programs', programRoutes);
-app.use('/api/gallery', galleryRoutes);
-app.use('/api/events', eventRoutes);
-app.use('/api/contact', contactRoutes);
-app.use('/api/donations', donationRoutes);
-app.use('/api/testimonials', testimonialRoutes);
-app.use('/api/dashboard', dashboardRoutes);
-app.use('/api/upload', uploadRoutes);
-
-// Health check
+// Health check endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({ 
     status: 'OK', 
     message: 'RLG API is running',
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime()
+    timestamp: new Date().toISOString()
   });
+});
+
+// API Routes - with error handling for each route
+const routeGroups = [
+  { path: '/api/auth', routes: authRoutes },
+  { path: '/api/admin', routes: adminRoutes },
+  { path: '/api/users', routes: userRoutes },
+  { path: '/api/blogs', routes: blogRoutes },
+  { path: '/api/programs', routes: programRoutes },
+  { path: '/api/gallery', routes: galleryRoutes },
+  { path: '/api/events', routes: eventRoutes },
+  { path: '/api/contact', routes: contactRoutes },
+  { path: '/api/donations', routes: donationRoutes },
+  { path: '/api/testimonials', routes: testimonialRoutes },
+  { path: '/api/dashboard', routes: dashboardRoutes },
+  { path: '/api/upload', routes: uploadRoutes },
+];
+
+routeGroups.forEach(({ path, routes }) => {
+  if (routes && typeof routes === 'function') {
+    app.use(path, routes);
+  } else if (routes && typeof routes === 'object') {
+    app.use(path, routes);
+  } else {
+    console.log(`Warning: Route module for ${path} is invalid`);
+  }
 });
 
 // 404 handler
@@ -100,20 +129,19 @@ app.use(errorMiddleware);
 // Start server
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () => {
-  logger.info(`🚀 Server running on port ${PORT}`);
-  logger.info(`📝 Environment: ${process.env.NODE_ENV}`);
-  logger.info(`🔗 Frontend URL: ${process.env.FRONTEND_URL}`);
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`📝 Environment: ${process.env.NODE_ENV || 'development'}`);
 });
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err) => {
-  logger.error('Unhandled Rejection:', err);
+  console.error('Unhandled Rejection:', err);
   server.close(() => process.exit(1));
 });
 
 // Handle uncaught exceptions
 process.on('uncaughtException', (err) => {
-  logger.error('Uncaught Exception:', err);
+  console.error('Uncaught Exception:', err);
   server.close(() => process.exit(1));
 });
 
