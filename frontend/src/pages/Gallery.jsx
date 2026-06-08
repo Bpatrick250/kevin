@@ -8,7 +8,7 @@ import {
   faChevronLeft, faChevronRight, faTimes, faSpinner,
   faShare, faDownload, faHeart, faEye, faTag, faClock,
   faMapMarkerAlt, faUser, faThumbsUp, faComment,
-  faEnvelope, faEmptySet
+  faEnvelope
 } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 import { heroBg } from "../assets";
@@ -87,7 +87,6 @@ export default function Gallery() {
     : images.filter(img => img.category === activeCategory);
 
   const handleImageClick = (image) => {
-    // In a real implementation, this would open a lightbox with the actual image
     showInfo(image.title, "Click to view full image");
   };
 
