@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faBell, faUserCircle, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
-const AdminHeader = ({ admin, onMenuClick, onLogout }) => {
-  const [showDropdown, setShowDropdown] = React.useState(false);
+const AdminHeader = ({ admin, onMenuClick, onLogout, isMobile }) => {
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [notifications, setNotifications] = useState([
+    { id: 1, message: 'New contact message received', read: false },
+    { id: 2, message: 'New donation of $50', read: false },
+    { id: 3, message: 'Blog post published', read: true },
+  ]);
+
+  const unreadCount = notifications.filter(n => !n.read).length;
 
   return (
     <header className="admin-header">
@@ -16,21 +23,35 @@ const AdminHeader = ({ admin, onMenuClick, onLogout }) => {
       </div>
       
       <div className="header-actions">
-        <button className="notification-btn">
-          <FontAwesomeIcon icon={faBell} />
-          <span className="badge">3</span>
-        </button>
+        <div className="notification-dropdown">
+          <button className="notification-btn">
+            <FontAwesomeIcon icon={faBell} />
+            {unreadCount > 0 && <span className="badge">{unreadCount}</span>}
+          </button>
+          <div className="notification-menu">
+            {notifications.map(notif => (
+              <div key={notif.id} className={`notification-item ${!notif.read ? 'unread' : ''}`}>
+                <p>{notif.message}</p>
+              </div>
+            ))}
+          </div>
+        </div>
         
         <div className="user-menu">
           <button className="user-btn" onClick={() => setShowDropdown(!showDropdown)}>
             <FontAwesomeIcon icon={faUserCircle} />
-            <span>{admin?.name || 'Admin'}</span>
+            <span>{admin?.name?.split(' ')[0] || 'Admin'}</span>
             <FontAwesomeIcon icon={faChevronDown} className="chevron" />
           </button>
           
           {showDropdown && (
             <div className="dropdown-menu">
-              <button onClick={onLogout}>Logout</button>
+              <button onClick={() => window.location.href = '/admin/settings'}>
+                <FontAwesomeIcon icon={faUserCircle} /> Profile Settings
+              </button>
+              <button onClick={onLogout}>
+                <FontAwesomeIcon icon={faSignOutAlt} /> Logout
+              </button>
             </div>
           )}
         </div>
@@ -72,6 +93,10 @@ const AdminHeader = ({ admin, onMenuClick, onLogout }) => {
           gap: 20px;
         }
         
+        .notification-dropdown {
+          position: relative;
+        }
+        
         .notification-btn {
           position: relative;
           background: none;
@@ -92,6 +117,36 @@ const AdminHeader = ({ admin, onMenuClick, onLogout }) => {
           border-radius: 10px;
         }
         
+        .notification-menu {
+          position: absolute;
+          top: 100%;
+          right: 0;
+          width: 280px;
+          background: white;
+          border-radius: 8px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+          z-index: 100;
+          display: none;
+        }
+        
+        .notification-dropdown:hover .notification-menu {
+          display: block;
+        }
+        
+        .notification-item {
+          padding: 12px 15px;
+          border-bottom: 1px solid #e5e7eb;
+          cursor: pointer;
+        }
+        
+        .notification-item.unread {
+          background: #f0fdf4;
+        }
+        
+        .notification-item:hover {
+          background: #f3f4f6;
+        }
+        
         .user-menu {
           position: relative;
         }
@@ -107,6 +162,10 @@ const AdminHeader = ({ admin, onMenuClick, onLogout }) => {
           border-radius: 8px;
         }
         
+        .user-btn:hover {
+          background: #f3f4f6;
+        }
+        
         .dropdown-menu {
           position: absolute;
           top: 100%;
@@ -114,7 +173,7 @@ const AdminHeader = ({ admin, onMenuClick, onLogout }) => {
           background: white;
           border-radius: 8px;
           box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-          min-width: 150px;
+          min-width: 180px;
           z-index: 100;
         }
         
@@ -125,6 +184,9 @@ const AdminHeader = ({ admin, onMenuClick, onLogout }) => {
           border: none;
           text-align: left;
           cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 8px;
         }
         
         .dropdown-menu button:hover {
@@ -137,6 +199,10 @@ const AdminHeader = ({ admin, onMenuClick, onLogout }) => {
           }
           
           .header-search {
+            display: none;
+          }
+          
+          .user-btn span {
             display: none;
           }
         }
